@@ -38,19 +38,19 @@ export const MainModel = () => {
       <PerspectiveCamera makeDefault position={[-5, 3, -8]} />
 
       <mesh
-        rotation={[-degreesToRadians(90), 0, 0]}
-        position={[0, -1, 0]}
+        rotation={[-degreesToRadians(90), degreesToRadians(0), degreesToRadians(215)]}
+        position={[-5, -1, 0]}
         receiveShadow
       >
-        <planeGeometry args={[100, 100, 128, 128]} />
+        <planeGeometry args={[100, 100, 30, 30]} />
         <meshStandardMaterial {...FloorTexture} roughness={0.8} metalness={1} />
       </mesh>
       {/* rotation={[0,degreesToRadians(60),0] */}
-      <mesh castShadow>
-        {/* <Model scale={0.6} /> */}
+      <mesh castShadow rotation={[0,degreesToRadians(80),0]}>
+        <Model scale={0.6} />
       </mesh>
 
-      <ambientLight intensity={0.8} color={"white"} />
+      <ambientLight intensity={0.1} color={"white"} />
       <hemisphereLight />
       <spotLight
         ref={spotLightRef}
@@ -65,13 +65,12 @@ export const MainModel = () => {
         decay={0.5}
         castShadow
       />
-      <spotLight
+       <spotLight
         color={"white"}
-        position={[0, 2, 0.35]}
+        position={[0, 2, -2.2]}
         decay={0.5}
         castShadow
       />
-      <light />
       <Environment background>
         <mesh>
           <sphereGeometry args={[50, 50, 50]} />
