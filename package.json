@@ -6,12 +6,15 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon vtrade-backend/index.js",
-    "start": "nodemon vtrade-backend/index.js"
+    "start": "node vtrade-backend/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.1"
   }
 }
