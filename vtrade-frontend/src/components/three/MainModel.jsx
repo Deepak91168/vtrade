@@ -47,7 +47,7 @@ export const MainModel = () => {
       </mesh>
       {/* rotation={[0,degreesToRadians(60),0] */}
       <mesh castShadow rotation={[0,degreesToRadians(80),0]}>
-        <Model scale={0.6} />
+        {/* <Model scale={0.6} /> */}
       </mesh>
 
       <ambientLight intensity={0.1} color={"white"} />

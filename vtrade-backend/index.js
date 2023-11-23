@@ -6,6 +6,7 @@ import authRouter from "./routes/authRoute.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 dotenv.config();
+
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
@@ -20,7 +21,10 @@ const connectDB = async () => {
 };
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(express.json());
 connectDB();
 

@@ -3,24 +3,28 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-const inputClass =
-  "p-4 mb-4 border-slate-800 border-b-[2px] bg-transparent focus:bg-slate-900 focus:outline-none focus:border-white focus:border-b-[2px] text-sm sm:text-sm hover:border-b-[2px] hover:border-slate-500";
+import { formInputClass } from "../../assets/styles/commonClasses";
+import { LineWave } from "react-loader-spinner";
 export const SignUp = () => {
   const navigate = useNavigate();
+
+  //State Handling form SignUp Data
   const [userData, setUserData] = useState({
     name: "",
     username: "",
     email: "",
     password: "",
   });
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const onChangeHandler = (e) => {
     setUserData({ ...userData, [e.target.id]: e.target.value });
   };
   const handeleSubmit = async (e) => {
     e.preventDefault();
+    // API Call Backend API URL: http://localhost:3000/api/auth/signup [For signUp]
     try {
       setLoading(true);
       const response = await axios.post(
@@ -54,28 +58,28 @@ export const SignUp = () => {
           <input
             id="name"
             onChange={onChangeHandler}
-            className={inputClass}
+            className={formInputClass}
             type="text"
             placeholder="Name"
           />
           <input
             id="username"
             onChange={onChangeHandler}
-            className={inputClass}
+            className={formInputClass}
             type="text"
             placeholder="Username"
           />
           <input
             id="email"
             onChange={onChangeHandler}
-            className={inputClass}
+            className={formInputClass}
             placeholder="Email"
             type="email"
           />
           <input
             id="password"
             onChange={onChangeHandler}
-            className={inputClass}
+            className={formInputClass}
             placeholder="Password"
             type="password"
           />
@@ -88,16 +92,39 @@ export const SignUp = () => {
                 {error ? `Try Again!  *${error}` : null}
               </h1>
             </div>
-            <button
-              disabled={loading}
-              className={`mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:font-medium`}
-            >
-              {loading ? "Loading..." : "Sign Up"}
-            </button>
-            <p className="text-center text-[10px] text-slate-400 mt-2"> or </p>
-            <button className="mt-2 font-thin rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:font-medium">
-              Continue with Google
-            </button>
+            {loading ? (
+              <div>
+                <button
+                  disabled={loading}
+                  className={`mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:font-medium`}
+                >
+                  Sign Up
+                </button>
+                <p className="text-center text-[10px] text-slate-400 mt-2">
+                  {" "}
+                  or{" "}
+                </p>
+                <button className="mt-2 font-thin rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:font-medium">
+                  Continue with Google
+                </button>
+              </div>
+            ) : (
+              <div className="w-full flex justify-center items-center">
+                <LineWave
+                  className="text-center border-2"
+                  height="100"
+                  width="100"
+                  color="#4fa94d"
+                  ariaLabel="line-wave"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                  firstLineColor="#4e4d4f"
+                  middleLineColor="#4e4d4f"
+                  lastLineColor="#4e4d4f"
+                />
+              </div>
+            )}
           </div>
         </form>
       </div>
