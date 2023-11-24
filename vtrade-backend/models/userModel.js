@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
     },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false, required: true },
+    avatar: { type: String , default: "https://i.imgur.com/6VBx3io.png"}
   },
   {
     timestamps: true,

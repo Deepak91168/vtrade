@@ -7,11 +7,13 @@ import { SignIn } from "./pages/authentication/SignIn";
 import { About } from "./pages/general/About";
 import { Profile } from "./pages/authentication/Profile";
 import Layout from "./components/common/Layout";
+
+
 function App() {
   return (
     <BrowserRouter>
       <Layout>
-      <Header />
+        <Header />
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/about" element={<About />}></Route>
@@ -24,3 +26,5 @@ function App() {
   );
 }
 export default App;
+
+//TODO: Global loader to be added

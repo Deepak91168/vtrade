@@ -5,6 +5,7 @@ import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const connectDB = async () => {
@@ -20,13 +21,17 @@ const connectDB = async () => {
   }
 };
 
-const app = express();
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-}));
-app.use(express.json());
 connectDB();
+const app = express();
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(express.json());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
