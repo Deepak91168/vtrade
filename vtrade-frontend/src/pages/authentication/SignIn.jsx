@@ -1,4 +1,4 @@
-import Layout from "../../components/common/Layout";
+import Layout from "../../components/ui/Layout";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,8 @@ import { formInputClass } from "../../assets/styles/commonClasses";
 import { Loader } from "../../components/ui/Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { OAuth } from "../../components/auth/OAuth";
+import Container from "../../components/ui/Container";
+import Heading from "../../components/ui/Heading";
 import {
   signInStart,
   signInSuccess,
@@ -21,7 +23,7 @@ export const SignIn = () => {
     email: "",
     password: "",
   });
-  
+
   //Handling for error and loading
   const { loading, error } = useSelector((state) => state.user);
 
@@ -60,66 +62,62 @@ export const SignIn = () => {
   };
 
   return (
-    <Layout>
-      <div className="max-w-2xl px-6 rounded-md p-4 mx-auto pt-20">
-        {/* ### Heading ###*/}
-        <h1 className="cursor-default text-slate-400 text-xl text-center mb-4 font-extrabold pb-4">
-          <span color="text">Log In</span>
-        </h1>
-        {/* --- Heading Ends --- */}
+    <Container>
+      {/* ### Heading ###*/}
+      <Heading title={"Log In"} />
+      {/* --- Heading Ends --- */}
 
-        {/* Form for Sign In/Log In */}
-        <form onSubmit={handleSubmit} className="text-white flex flex-col">
-          {/* ### Input Section ###*/}
-          <input
-            id="email"
-            onChange={onChangeHandler}
-            className={formInputClass}
-            placeholder="Email"
-            type="email"
-          />
-          <input
-            id="password"
-            onChange={onChangeHandler}
-            className={formInputClass}
-            placeholder="Password"
-            type="password"
-          />
-          {/* --- Input Section Ends --- */}
+      {/* Form for Sign In/Log In */}
+      <form onSubmit={handleSubmit} className="text-white flex flex-col">
+        {/* ### Input Section ###*/}
+        <input
+          id="email"
+          onChange={onChangeHandler}
+          className={formInputClass}
+          placeholder="Email"
+          type="email"
+        />
+        <input
+          id="password"
+          onChange={onChangeHandler}
+          className={formInputClass}
+          placeholder="Password"
+          type="password"
+        />
+        {/* --- Input Section Ends --- */}
 
-          <div>
-            {/* ### Already have an account and error ###*/}
-            <div className="flex justify-between">
-              <h1 className="transition ease-in-out duration-300 text-[0.7rem] text-slate-300 mt-2 hover:text-white cursor-pointer p-2">
-                <Link to="/sign-up">Don&apos;t have an account?</Link>
-              </h1>
-              <h1 className=" text-[0.7rem] text-red-500 mt-2 ">
-                {error ? `Try Again!  *${error}` : null}
-              </h1>
-            </div>
-            {/* --- Already have an account and error Ends --- */}
-
-            {/* Conditional Rendering for Loader */}
-            {!loading ? (
-              <div className="p-2">
-                <button
-                  className={`transition ease-in-out duration-300 mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:font-medium`}
-                >
-                  Log In
-                </button>
-                <p className="cursor-default text-center text-[10px] text-slate-400 mt-2">
-                  {" "}
-                  or{" "}
-                </p>
-                <OAuth />
-              </div>
-            ) : (
-              <Loader />
-            )}
-            {/* --- Conditional Rendering for Loader Ends --- */}
+        <div>
+          {/* ### Already have an account and error ###*/}
+          <div className="flex justify-between">
+            <h1 className="transition ease-in-out duration-300 text-[0.7rem] text-slate-300 mt-2 hover:text-white cursor-pointer p-2">
+              <Link to="/sign-up">Don&apos;t have an account?</Link>
+            </h1>
+            <h1 className=" text-[0.7rem] text-red-500 mt-2 ">
+              {error ? `Try Again!  *${error}` : null}
+            </h1>
           </div>
-        </form>
-      </div>
-    </Layout>
+          {/* --- Already have an account and error Ends --- */}
+
+          {/* Conditional Rendering for Loader */}
+          {!loading ? (
+            <div className="p-2">
+              <button
+                className={`transition ease-in-out duration-300 mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600`}
+              >
+                Log In
+              </button>
+              <p className="cursor-default text-center text-[10px] text-slate-400 mt-2">
+                {" "}
+                or{" "}
+              </p>
+              <OAuth />
+            </div>
+          ) : (
+            <Loader />
+          )}
+          {/* --- Conditional Rendering for Loader Ends --- */}
+        </div>
+      </form>
+    </Container>
   );
 };

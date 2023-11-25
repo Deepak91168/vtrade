@@ -5,24 +5,41 @@ import { Home } from "./pages/general/Home";
 import { SignUp } from "./pages/authentication/SignUp";
 import { SignIn } from "./pages/authentication/SignIn";
 import { About } from "./pages/general/About";
-import { Profile } from "./pages/authentication/Profile";
-import Layout from "./components/common/Layout";
-
+import { Profile } from "./pages/user/Profile";
+import Layout from "./components/ui/Layout";
+import { ToastContainer } from "react-toastify";
+import PrivateRoute from "./components/auth/PrivateRoute";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/sign-in" element={<SignIn />}></Route>
-          <Route path="/sign-up" element={<SignUp />}></Route>
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Layout>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 }
 export default App;

@@ -1,41 +1,57 @@
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
 export const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <header className="pt-4 pb-4 z-10 text-white bg-transparent w-full">
-      <div className="flex justify-between mx-auto items-center max-w-6xl pl-3">
+      <div className="flex justify-between mx-auto items-center max-w-6xl">
         <h1 className="flex p-2">
           <Link to="/">
-            <span className="font-bold text-sm sm:text-xl border-b-2 border-transparent">
+            <span className="pl-4 pt-2 font-bold text-md sm:text-xl border-b-2 border-transparent">
               Logo
             </span>
           </Link>
         </h1>
-        <ul className="text-white flex gap-6 text-sm font-semibold">
-          <li className=" transition ease-in-out duration-500 hidden sm:inline pl-1 pr-1 pb-1 pt-1  cursor-pointer border-black border-b-[0.5px] hover:border-b-[0.5px] hover:border-white">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="transition ease-in-out duration-500 hidden sm:inline pl-1 pr-1 pb-1 pt-1  cursor-pointer border-black border-b-[0.5px] hover:border-b-[0.5px] hover:border-white">
-            <Link to="/">Buy</Link>
-          </li>
-          <li className="transition ease-in-out duration-500 hidden sm:inline pl-1 pr-1 pb-1 pt-1  cursor-pointer border-black border-b-[0.5px] hover:border-b-[0.5px] hover:border-white">
-            <Link to="/">Sell</Link>
-          </li>
-          <li className="transition ease-in-out duration-500 hidden sm:inline pl-1 pr-1 pb-1 pt-1  cursor-pointer border-black border-b-[0.5px] hover:border-b-[0.5px] hover:border-white">
-            <Link to="/about">About</Link>
-          </li>
-          <li className="transition ease-in-out duration-500 pl-1 pr-1 pb-1 pt-1  cursor-pointer border-black border-b-[0.5px] hover:border-b-[0.5px] hover:border-white">
-            <Link to="/sign-in">SignIn</Link>
-          </li>
-        </ul>
-        <form className="pl-2 pr-2 mr-2 rounded-lg flex items-center relative">
+        <form className="pl-2 pt-1 w-80 sm:w-1/3 rounded-lg flex items-center justify-around relative">
           <input
-            className="transition ease-in-out duration-500 w-20 sm:w-64 pb-2 pt-2 border-transparent border-b-2 bg-transparent relative focus:bg-slate-900 focus:outline-none focus:border-white focus:border-b-2 text-sm sm:text-sm hover:border-b-2 hover:border-white"
+            className="transition ease-in-out duration-500 w-[75%] sm:w-full p-2 border-transparent border-b-[1px] bg-transparent relative focus:bg-transparent focus:outline-none focus:border-white focus:border-b-[1px] text-[12px] sm:text-sm hover:border-b-[1px] hover:border-slate-500"
             type="text"
             placeholder="Search..."
           />
-          <FaSearch className=" opacity-[0.5] text-sm absolute right-4" />
+          <FaSearch className=" opacity-[0.5] text-[12px] sm:text-sm absolute right-12 sm:right-4" />
         </form>
+        <ul className="text-white flex gap-2 md:gap-4 lg:gap-8 text-[12px] md:text-[13px] lg:text-sm font-semibold pr-4">
+          <li className="transition ease-in-out hover:text-slate-400 hover:font-bold duration-500 hidden sm:inline p-1 pt-2  cursor-pointer border-black border-b-[1px] hover:border-b-[1px] hover:border-slate-500">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="transition ease-in-out hover:text-slate-400 hover:font-bold duration-500 hidden sm:inline p-1 pt-2  cursor-pointer border-black border-b-[1px] hover:border-b-[1px] hover:border-slate-500">
+            <Link to="/">Buy</Link>
+          </li>
+          <li className="transition ease-in-out hover:text-slate-400 hover:font-bold duration-500 hidden sm:inline p-1 pt-2  cursor-pointer border-black border-b-[1px] hover:border-b-[1px] hover:border-slate-500">
+            <Link to="/">Sell</Link>
+          </li>
+          <li className="transition ease-in-out hover:text-slate-400 hover:font-bold duration-500 hidden sm:inline p-1 pt-2  cursor-pointer border-black border-b-[1px] hover:border-b-[1px] hover:border-slate-500">
+            <Link to="/about">About</Link>
+          </li>
+          {currentUser ? (
+            <li>
+              <Link to="/profile">
+                <img
+                  src={currentUser.avatar}
+                  alt="user profile"
+                  className="text-white mt-1 transition ease-in-out duration-500 cursor-pointer rounded-full h-7 w-7 hover:opacity-80"
+                />
+              </Link>
+            </li>
+          ) : (
+            <li className="transition ease-in-out hover:text-slate-400 hover:font-bold duration-500 hidden sm:inline p-1 pt-2  cursor-pointer border-black border-b-[1px] hover:border-b-[1px] hover:border-slate-500">
+              <Link to="/sign-in">SignIn</Link>
+            </li>
+          )}
+        </ul>
       </div>
     </header>
   );

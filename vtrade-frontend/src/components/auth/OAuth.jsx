@@ -31,7 +31,8 @@ export const OAuth = () => {
           withCredentials: true, //? [Took lot of time :')] To get cookie from server side, normal cookies are allowed but as we have firebase app we need to set this to true.
         }
       );
-      dispatch(signInSuccess(data));
+      console.log(result.data);
+      dispatch(signInSuccess(result.data)); // Use data from server to update redux store
     } catch (err) {
       console.log(err);
     }
@@ -41,7 +42,7 @@ export const OAuth = () => {
     <button
       onClick={handleOAuthClick}
       type="button"
-      className="flex items-center justify-center transition ease-in-out duration-300 mt-2 font-thin rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:font-medium"
+      className="flex items-center justify-center transition ease-in-out duration-300 mt-2 font-thin rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600"
     >
       <FcGoogle className="text-[16px] mr-1" />
       <p> Continue with Google</p>
