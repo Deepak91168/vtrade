@@ -12,17 +12,17 @@ import { useGLTF } from "@react-three/drei";
 export function Model(props) {
   const { nodes, materials } = useGLTF("../../../models/car/model.glb");
   const modelref = useRef(null);
-  useEffect(() => {
-    if(modelref.current)
-    console.log(modelref.current);
-  }, []);
+  // useEffect(() => {
+  //   if(modelref.current)
+  //   console.log(modelref.current);
+  // }, []);
 
   return (
     <group {...props} ref={modelref} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh
           geometry={nodes.Object_2.geometry}
-          material={materials["Material.001"]}
+          // material={materials["Material.001"]}
         />
         <lineSegments
           geometry={nodes.Object_3.geometry}

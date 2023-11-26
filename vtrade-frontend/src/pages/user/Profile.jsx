@@ -5,7 +5,6 @@ import { CgSoftwareUpload } from "react-icons/cg";
 import { formInputClass } from "../../assets/styles/commonClasses";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import {
   getStorage,
   ref,
@@ -59,10 +58,7 @@ export const Profile = () => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        // console.log("Upload is " + progress + "% done");
         setUploadProgress(Math.round(progress));
-        // console.log(uploadProgress);
-
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -81,7 +77,6 @@ export const Profile = () => {
       },
       () => {
         // Handle successful uploads on complete
-
         getDownloadURL(uploadTask.snapshot.ref)
           .then((downloadURL) => {
             console.log("File available at", downloadURL);
@@ -110,14 +105,14 @@ export const Profile = () => {
     }
   };
 
-  const clearUploadInfo = () => {
+  const clearUploadProgressInfo = () => {
     setUploadProgress(0);
     setUploadError(false);
   };
 
   useEffect(() => {
     setTimeout(() => {
-      clearUploadInfo();
+      clearUploadProgressInfo();
     }, 5000);
   }, [uploadProgress]);
 

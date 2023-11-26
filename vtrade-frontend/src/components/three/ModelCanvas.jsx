@@ -5,7 +5,7 @@ import "../../assets/styles/canvas.css";
 export const ModelCanvas = () => {
   return (
     <div>
-      <Canvas id="canvas-container" shadows>
+      <Canvas id="canvas-container" className="fixed" shadows>
         <Suspense fallback={null}>
           <MainModel />
         </Suspense>
