@@ -16,6 +16,7 @@ export const SignUp = () => {
     username: "",
     email: "",
     password: "",
+    avatar: "",
   });
   //State Handling for error and loading
   const [error, setError] = useState(null);
@@ -26,7 +27,7 @@ export const SignUp = () => {
     setUserData({ ...userData, [e.target.id]: e.target.value });
   };
 
-  const handeleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // API Call Backend API URL: http://localhost:3000/api/auth/signup [For signUp]
     try {
@@ -41,7 +42,6 @@ export const SignUp = () => {
         }
       );
       const data = await response.data;
-      console.log(data);
       setLoading(false);
       setError(null);
       //Redirection to Login Page after successful Sign Up
@@ -59,7 +59,7 @@ export const SignUp = () => {
       {/* --- Heading Ends --- */}
 
       {/* Form for Sign Up */}
-      <form onSubmit={handeleSubmit} className="text-white flex flex-col">
+      <form onSubmit={handleSubmit} className="text-white flex flex-col">
         {/* ### Input Section ###*/}
         <input
           id="name"

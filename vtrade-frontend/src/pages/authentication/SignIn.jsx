@@ -1,4 +1,3 @@
-import Layout from "../../components/ui/Layout";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +49,6 @@ export const SignIn = () => {
       //Redirection to Home Page after successful login
       navigate("/");
     } catch (error) {
-      console.log(error.response);
       dispatch(signInFailure(error.response.data.message));
     }
   };
@@ -58,7 +56,6 @@ export const SignIn = () => {
   //*Handling form Input
   const onChangeHandler = (e) => {
     setUserData({ ...userData, [e.target.id]: e.target.value });
-    console.log(userData);
   };
 
   return (

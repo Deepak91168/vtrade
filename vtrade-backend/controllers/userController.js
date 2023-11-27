@@ -1,3 +1,56 @@
-export const getUser = (req,res) => {
-    res.send("API is running...");
-}
+import bcrypt from "bcryptjs";
+import User from "../models/userModel.js";
+import { customError } from "../utils/customError.js";
+
+export const getUser = (req, res) => {
+  res.send("API is running...");
+};
+
+// Update User
+export const updateUser = async (req, res, next) => {
+  console.log("Updating User controller");
+  console.log("User ID B", req.user.id);
+  console.log("User ID B", req.params.id);
+  if (req.user.id !== req.params.id) {
+    console.log("Problem Here!");
+    return next(customError(401, "You are not authorized to update this user"));
+  }
+  try {
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(req.body.password, 10);
+    }
+    const updateUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          name: req.body.name,
+          username: req.body.username,
+          email: req.body.email,
+          password: req.body.password,
+          avatar: req.body.avatar,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    const { password, ...others } = updateUser._doc;
+    res.status(200).json(others);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+// Delete User
+export const deleteUser = async (req, res, next) => {
+  const userId = req.params.id;
+  if (req.user.id !== userId) {
+    return next(customError(401, "You are not authorized to delete this user"));
+  }
+  try {
+    await User.findByIdAndDelete(userId);
+    res.status(200).json("User has been deleted...");
+  } catch (error) {
+    return next(error);
+  }
+};

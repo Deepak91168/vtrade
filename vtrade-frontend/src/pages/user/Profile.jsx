@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Container from "../../components/ui/Container";
 import Heading from "../../components/ui/Heading";
 import { CgSoftwareUpload } from "react-icons/cg";
 import { formInputClass } from "../../assets/styles/commonClasses";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
+import axios from "axios";
 import {
   getStorage,
   ref,
@@ -13,6 +14,14 @@ import {
 } from "firebase/storage";
 import { app } from "../../firebase";
 import { getRandomFileName } from "../../utils/RandomName";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+} from "../../redux/user/userSlice";
 
 export const Profile = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -21,14 +30,10 @@ export const Profile = () => {
   const imageRef = useRef(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadError, setUploadError] = useState(false);
-  const [profileData, setProfileData] = useState({
-    name: currentUser.name,
-    username: currentUser.username,
-    email: currentUser.email,
-    password: currentUser.password,
-    avatar: currentUser.avatar,
-  });
-  // console.log(profileData);
+  const [profileData, setProfileData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const dispatch = useDispatch();
+
   const handleOnChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -45,8 +50,6 @@ export const Profile = () => {
 
   //Upload file to firebase
   const uploadFile = async (file) => {
-    console.log(file.size);
-    console.log(file);
     const storage = getStorage(app);
     const fileName = getRandomFileName(file);
     const storageRef = ref(storage, `avatars/${fileName}`);
@@ -64,7 +67,7 @@ export const Profile = () => {
             console.log("Upload is paused");
             break;
           case "running":
-            console.log("Upload is running");
+            // console.log("Upload is running");
             break;
           default:
             break;
@@ -79,7 +82,7 @@ export const Profile = () => {
         // Handle successful uploads on complete
         getDownloadURL(uploadTask.snapshot.ref)
           .then((downloadURL) => {
-            console.log("File available at", downloadURL);
+            // console.log("File available at", downloadURL);
             setProfileData({ ...profileData, avatar: downloadURL });
           })
           .catch((error) => {
@@ -116,6 +119,51 @@ export const Profile = () => {
     }, 5000);
   }, [uploadProgress]);
 
+  const handleOnChangeForm = (e) => {
+    const { id, value } = e.target;
+    setProfileData({ ...profileData, [id]: value });
+  };
+
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      console.log("User ID: ", currentUser._id);
+      const response = await axios.post(
+        `http://localhost:3000/api/user/update/${currentUser._id}`,
+        JSON.stringify(profileData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      const data = await response.data;
+      // console.log(data);
+      dispatch(updateUserSuccess(data));
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+    // console.log("update");
+  };
+
+  const handleAccountDelete = async (e) => {
+    console.log("delete");
+    e.preventDefault();
+    try {
+      dispatch(deleteUserStart());
+      await axios.delete(
+        `http://localhost:3000/api/user/delete/${currentUser._id}`,
+        { withCredentials: true }
+      );
+
+      dispatch(deleteUserSuccess());
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
   return (
     <Container>
       <form className="bg-transparent border-slate-900 hover:border-slate-800 border-[0.5px] transition ease-in-out duration-500 pt-12 pb-8 p-4 bg-white bg-opacity-5 rounded-lg">
@@ -123,11 +171,11 @@ export const Profile = () => {
           type="file"
           onChange={handleOnChange}
           ref={imageRef}
-          className="hidden"
+          className="hidden "
           accept="image/*"
         />
         <div className="flex justify-center items-center relative">
-          {isHovered && (
+          {isHovered && isEditing && (
             <div className="top-6 sm:top-8 absolute flex flex-col justify-between items-center">
               <div>
                 <CgSoftwareUpload className="text-slate-400 text-xl" />
@@ -142,8 +190,12 @@ export const Profile = () => {
               onClick={() => imageRef.current.click()}
               onMouseOver={handleMouseOver}
               onMouseOut={handleMouseOut}
-              className={` rounded-full object-cover cursor-pointer hover:opacity-10 transition ease-in-out duration-500 w-20 h-20 sm:h-24 sm:w-24`}
-              src={currentUser.avatar}
+              className={` rounded-full object-cover ${
+                isEditing
+                  ? "hover:opacity-10 cursor-pointer"
+                  : "pointer-events-none"
+              }  transition ease-in-out duration-500 w-20 h-20 sm:h-24 sm:w-24`}
+              src={profileData.avatar || currentUser.avatar}
               alt="userProfile"
             />
 
@@ -169,7 +221,14 @@ export const Profile = () => {
           <h1 className="text-slate-400 ">{currentUser.email}</h1>
 
           <div className="flex flex-col mt-4">
-            <p className="transition ease-in-out duration-400 text-slate-400 cursor-pointer text-[0.8rem] mt-4">
+            <p
+              onClick={() => {
+                setIsEditing((prev) => !prev);
+              }}
+              className={`transition ease-in-out duration-200  ${
+                isEditing ? "text-slate-300" : "text-slate-400"
+              } cursor-pointer text-[0.8rem] mt-4`}
+            >
               Edit Profile
             </p>
             <div className="w-full flex item-center justify-center p-4">
@@ -183,15 +242,17 @@ export const Profile = () => {
 
         <div className="">
           <div className="flex justify-center items-center mt-4">
-            <button
-              className={`transition ease-in-out bg-slate-800 duration-500 mt-4 rounded-lg border-slate-800 text-white w-full sm:w-[60%] md:w-[40%] pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent`}
-            >
-              Add New Vehicle
-            </button>
+            {!isEditing && (
+              <button
+                className={`transition ease-in-out bg-slate-800 duration-500 mt-4 rounded-lg border-slate-800 text-white w-full sm:w-[60%] md:w-[40%] pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent`}
+              >
+                Add New Vehicle
+              </button>
+            )}
           </div>
         </div>
         <div>
-          <div className="w-full text-white mt-6">
+          <div className={`w-full text-white mt-6 ${!isEditing && "hidden"} `}>
             <div className="mb-2">
               <label htmlFor="" className="text-slate-400 text-[0.8rem] pl-4">
                 Name
@@ -200,8 +261,9 @@ export const Profile = () => {
                 type="text"
                 id="name"
                 placeholder="Name"
-                value={currentUser.name}
-                className={`${formInputClass} w-full p-4 pt-2`}
+                defaultValue={currentUser.name}
+                className={`${formInputClass} w-full pt-2`}
+                onChange={handleOnChangeForm}
               />
             </div>
 
@@ -213,8 +275,9 @@ export const Profile = () => {
                 type="text"
                 id="username"
                 placeholder="Username"
-                value={currentUser.username}
+                defaultValue={currentUser.username}
                 className={`${formInputClass} + w-full`}
+                onChange={handleOnChangeForm}
               />
             </div>
             <div className="mb-2">
@@ -225,30 +288,36 @@ export const Profile = () => {
                 type="email"
                 id="email"
                 placeholder="Email"
-                value={currentUser.email}
+                defaultValue={currentUser.email}
                 className={`${formInputClass} + w-full`}
+                onChange={handleOnChangeForm}
               />
             </div>
             <div>
               <label htmlFor="" className="text-slate-400 text-[0.8rem] pl-4">
-                Password
+                New Password
               </label>
               <input
                 type="password"
                 id="password"
-                placeholder="Password"
-                value={currentUser.password}
+                placeholder="New Password"
+                // value={currentUser.password}
                 className={`${formInputClass} + w-full`}
+                onChange={handleOnChangeForm}
               />
             </div>
 
             <div className="flex items-center space-x-8">
               <button
+                type="submit"
+                onClick={handleProfileUpdate}
                 className={`rounded-lg transition ease-in-out duration-500 mt-2 font-thin border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 `}
               >
                 Update
               </button>
               <button
+                type="button"
+                onClick={handleAccountDelete}
                 className={`rounded-lg transition ease-in-out duration-500 mt-2 border-slate-800 text-red-500 w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-red-700 hover:border-[0.5px] `}
               >
                 Delete Account

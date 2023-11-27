@@ -50,14 +50,17 @@ export const login = async (req, res, next) => {
       username: validUser.username,
       email: validUser.email,
       _id: validUser._id,
+      avatar: validUser.avatar,
     };
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        // sameSite: "None",
       })
       .status(200)
       .json(mainUser);
+
+    console.log("Logged In Successful");
+    console.log(mainUser);
   } catch (error) {
     next(error);
   }
