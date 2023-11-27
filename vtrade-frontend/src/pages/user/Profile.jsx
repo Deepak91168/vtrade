@@ -21,9 +21,14 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  logoutStart,
+  logoutSuccess,
+  logoutFailure,
 } from "../../redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [file, setFile] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
@@ -34,6 +39,8 @@ export const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
 
+  //* Avatar Upload
+  // Handle Input Change for Avatar Upload
   const handleOnChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -41,7 +48,9 @@ export const Profile = () => {
     }
   };
 
-  //TODO: Make a check for file size
+  //TODO: [Feature] Make a check for file size
+
+  //Upload file to firebase when file is changed
   useEffect(() => {
     if (file) {
       uploadFile(file);
@@ -92,6 +101,7 @@ export const Profile = () => {
     );
   };
 
+  // Handle Mouse Over and out for Avatar Upload
   const handleMouseOver = () => {
     setIsHovered(true);
   };
@@ -100,6 +110,7 @@ export const Profile = () => {
     setIsHovered(false);
   };
 
+  // Set Avatar Upload Progress UI
   const setProgressUI = () => {
     if (uploadProgress === 100) {
       return "Image Uploaded Successfully";
@@ -108,22 +119,27 @@ export const Profile = () => {
     }
   };
 
+  // Clear Upload Progress Info
   const clearUploadProgressInfo = () => {
     setUploadProgress(0);
     setUploadError(false);
   };
 
+  // Clear Upload Progress Info after 5 seconds
   useEffect(() => {
     setTimeout(() => {
       clearUploadProgressInfo();
     }, 5000);
   }, [uploadProgress]);
 
+  //* Profile
+  // Handle Form Change for Profile Update
   const handleOnChangeForm = (e) => {
     const { id, value } = e.target;
     setProfileData({ ...profileData, [id]: value });
   };
 
+  //Update Profile
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -148,6 +164,7 @@ export const Profile = () => {
     // console.log("update");
   };
 
+  //Delete Account
   const handleAccountDelete = async (e) => {
     console.log("delete");
     e.preventDefault();
@@ -161,6 +178,20 @@ export const Profile = () => {
       dispatch(deleteUserSuccess());
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+    }
+  };
+
+  //Logout
+  const handleLogOut = async () => {
+    try {
+      dispatch(logoutStart());
+      await axios.get("http://localhost:3000/api/auth/logout", {
+        withCredentials: true,
+      });
+      dispatch(logoutSuccess());
+    } catch (error) {
+      console.log(error);
+      dispatch(logoutFailure(error.message));
     }
   };
 
@@ -195,7 +226,7 @@ export const Profile = () => {
                   ? "hover:opacity-10 cursor-pointer"
                   : "pointer-events-none"
               }  transition ease-in-out duration-500 w-20 h-20 sm:h-24 sm:w-24`}
-              src={profileData.avatar || currentUser.avatar}
+              src={profileData?.avatar || currentUser.avatar}
               alt="userProfile"
             />
 
@@ -222,20 +253,24 @@ export const Profile = () => {
 
           <div className="flex flex-col mt-4">
             <p
+              onClick={handleLogOut}
+              className="transition mt-4 ease-in-out duration-300 text-red-400 cursor-pointer text-[0.8rem]"
+            >
+              Log Out
+            </p>
+
+            <div className="w-full flex item-center justify-center p-4">
+              <hr className="text-slate-600 border-slate-600 w-4" />
+            </div>
+            <p
               onClick={() => {
                 setIsEditing((prev) => !prev);
               }}
               className={`transition ease-in-out duration-200  ${
                 isEditing ? "text-slate-300" : "text-slate-400"
-              } cursor-pointer text-[0.8rem] mt-4`}
+              } cursor-pointer text-[0.8rem]`}
             >
               Edit Profile
-            </p>
-            <div className="w-full flex item-center justify-center p-4">
-              <hr className="text-slate-600 border-slate-600 w-4" />
-            </div>
-            <p className="transition ease-in-out duration-300 text-red-400 cursor-pointer text-[0.8rem]">
-              Log Out
             </p>
           </div>
         </div>

@@ -6,7 +6,7 @@ export const getUser = (req, res) => {
   res.send("API is running...");
 };
 
-// Update User
+//* Update User
 export const updateUser = async (req, res, next) => {
   console.log("Updating User controller");
   console.log("User ID B", req.user.id);
@@ -41,7 +41,7 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
-// Delete User
+//* Delete User
 export const deleteUser = async (req, res, next) => {
   const userId = req.params.id;
   if (req.user.id !== userId) {
@@ -49,6 +49,7 @@ export const deleteUser = async (req, res, next) => {
   }
   try {
     await User.findByIdAndDelete(userId);
+    res.clearCookie("access_token");
     res.status(200).json("User has been deleted...");
   } catch (error) {
     return next(error);

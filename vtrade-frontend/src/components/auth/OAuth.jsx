@@ -4,12 +4,13 @@ import { app } from "../../firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../redux/user/userSlice";
-
+import { useNavigate } from "react-router-dom";
 export const OAuth = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleOAuthClick = async () => {
     try {
-      console.log("OAuth Clicked");
+      // console.log("OAuth Clicked");
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
 
@@ -28,11 +29,12 @@ export const OAuth = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true, //? [Took lot of time :')] To get cookie from server side, normal cookies are allowed but as we have firebase app we need to set this to true.
+          withCredentials: true, //? [--- Took lot of time :') ---] To get cookie from server side, normal cookies are allowed but as we have firebase app we need to set this to true.
         }
       );
-      console.log(result.data);
+      // console.log(result.data);
       dispatch(signInSuccess(result.data)); // Use data from server to update redux store
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
