@@ -9,6 +9,7 @@ import { Profile } from "./pages/user/Profile";
 import Layout from "./components/ui/Layout";
 import { ToastContainer } from "react-toastify";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import AddVehicle from "./pages/vehicle/AddVehicle";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route element={<PrivateRoute />}>
               <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route element={<PrivateRoute />}>
+              <Route path="/add-vehicle" element={<AddVehicle />} />
             </Route>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />

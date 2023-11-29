@@ -279,6 +279,7 @@ export const Profile = () => {
           <div className="flex justify-center items-center mt-4">
             {!isEditing && (
               <button
+                onClick={() => navigate("/add-vehicle")}
                 className={`transition ease-in-out bg-slate-800 duration-500 mt-4 rounded-lg border-slate-800 text-white w-full sm:w-[60%] md:w-[40%] pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent`}
               >
                 Add New Vehicle

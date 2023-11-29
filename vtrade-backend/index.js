@@ -3,23 +3,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
+import vehicleRouter from "./routes/vehicleRoute.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { connectDB } from "./config/db.js";
 dotenv.config();
-
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("MongoDB connection SUCCESS");
-  } catch (error) {
-    console.error("MongoDB connection FAIL" + error);
-    process.exit(1);
-  }
-};
 
 connectDB();
 const app = express();
@@ -35,6 +24,10 @@ app.use(
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/vehicle", vehicleRouter);
 app.use(errorHandler);
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
+);
