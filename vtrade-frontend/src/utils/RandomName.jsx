@@ -6,3 +6,6 @@ export const getRandomFileName = (file) => {
   const fileName = `${randomName}.${fileExtension}`;
   return fileName;
 };
+export const getRandomValue = (min, max) => {
+  return Math.floor(Math.random() * (max - min) + min);
+};
