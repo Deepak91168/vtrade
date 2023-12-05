@@ -30,24 +30,52 @@ import ImagePreviewModal from "../../components/ui/ImagePreviewModal";
 //       features
 
 const AddVehicle = () => {
+  const ownerType = ["1st Owner", "2nd Owner", "3rd Owner"];
   const [imageFile, setImageFile] = useState([]);
   const [selectedColor, setSelectedColor] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [selectedOwnerType, setSelectedOwnerType] = useState(null);
+  const [selectFuelType, setSelectFuelType] = useState(null);
+  //TODO; Fuel Type, Transmission, Body Type, Seats
   const [formData, setFormData] = useState({
     imageURls: [],
+    ownerName: "",
+    ownerNumber: "",
+    vehicleName: "",
+    brand: "",
+    modelYear: "",
+    kmsDriven: "",
+    city: "",
+    priceRegular: "",
+    fuelType: "Petrol",
+    transmission: "Manual",
+    bodyType: "Sedan",
+    seats: 4,
+    color: selectedColor,
+    ownerType: "",
   });
   const [previewImage, setPreviewImage] = useState(null);
   const [uploadError, setUploadError] = useState({
     error: false,
     message: "",
   });
+
   console.log(formData);
+
   const colors = ["Silver", "Black", "white", "Red", "Blue", "Grey", "Brown"]; // Seven colors
 
   const handleColorChange = (color) => {
     const colorName = color.hex;
     setSelectedColor(VehicleColorMap[colorName]);
   };
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      color: selectedColor,
+      ownerType: ownerType[selectedOwnerType],
+    });
+  }, [selectedColor, selectedOwnerType]);
 
   const handleFileChange = (e) => {
     setImageFile(e.target.files);
@@ -70,7 +98,7 @@ const AddVehicle = () => {
           // setUploading(true);
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
+          // console.log(`Upload is ${progress}% done`);
         },
         (error) => {
           reject(error);
@@ -152,6 +180,22 @@ const AddVehicle = () => {
       });
     }, 5000);
   }, [uploadError.error]);
+  const handleFormDataChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
+  };
+  const handleOwnerTypeChange = (i) => {
+    setSelectedOwnerType((prev) => {
+      console.log(ownerType[i]);
+      if (prev === i) {
+        return null;
+      }
+      return i;
+    });
+  };
   return (
     <div className="mt-8">
       <div>
@@ -174,9 +218,11 @@ const AddVehicle = () => {
                 </label>
                 <input
                   type="text"
-                  id="name"
+                  id="ownerName"
                   placeholder="Deepak Singh"
                   className={`${formInputClass} ml-4 pl-0`}
+                  onChange={handleFormDataChange}
+                  value={formData.ownerName}
                 />
               </div>
               <div className="flex flex-col mb-2">
@@ -188,64 +234,38 @@ const AddVehicle = () => {
                 </label>
                 <input
                   type="number"
-                  id="name"
+                  id="ownerNumber"
                   placeholder="+91 9876543210"
                   className={`${formInputClass} pl-0`}
+                  onChange={handleFormDataChange}
+                  value={formData.ownerNumber}
                 />
               </div>
             </div>
             <div className="flex justify-center text-white">
               <ul className="items-center w-full sm:w-[70%] lg:w-[60%] flex pt-2 pb-2 ps-2 sm:ps-0">
-                <li className="w-full border-slate-700 border-t-[0.5px] border-b-[0.5px]">
-                  <div className="flex items-center ps-3 ">
-                    <input
-                      id="vue-checkbox-list"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="vue-checkbox-list"
-                      className="text-sm  p-4 pl-2 text-slate-400"
-                    >
-                      1st Owner
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-t-[0.5px] border-b-[0.5px] border-slate-700">
-                  <div className="flex items-center ps-3">
-                    <input
-                      id="vue-checkbox-list"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="vue-checkbox-list"
-                      className="text-sm p-4 pl-2 text-slate-400"
-                    >
-                      2nd Owner
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-t-[0.5px] border-b-[0.5px] border-slate-700">
-                  <div className="flex items-center ps-3">
-                    <input
-                      id="vue-checkbox-list"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="vue-checkbox-list"
-                      className="text-sm p-4 pl-2 text-slate-400"
-                    >
-                      3rd Owner
-                    </label>
-                  </div>
-                </li>
-                {/* Other list items */}
-                {/* Repeat the structure for other checkboxes */}
+                {ownerType.map((owner, index) => (
+                  <li
+                    key={index}
+                    className="w-full border-slate-700 border-t-[0.5px] border-b-[0.5px]"
+                  >
+                    <div className="flex items-center ps-3 ">
+                      <input
+                        // id="1stOwner"
+                        type="checkbox"
+                        checked={index === selectedOwnerType}
+                        onChange={() => handleOwnerTypeChange(index)}
+                        className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="vue-checkbox-list"
+                        className="text-sm  p-4 pl-2 text-slate-400"
+                      >
+                        {owner}
+                      </label>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -265,9 +285,11 @@ const AddVehicle = () => {
                   </label>
                   <input
                     type="text"
-                    id="name"
+                    id="vehicleName"
                     placeholder="Deepak Singh"
                     className={`${formInputClass} pl-0`}
+                    value={formData.vehicleName}
+                    onChange={handleFormDataChange}
                   />
                 </div>
                 <div className="flex flex-col mb-2">
@@ -279,14 +301,16 @@ const AddVehicle = () => {
                   </label>
                   <input
                     type="text"
-                    id="name"
+                    id="brand"
                     placeholder="BMW"
                     className={`${formInputClass} pl-0`}
+                    value={formData.brand}
+                    onChange={handleFormDataChange}
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row ">
+              <div className="flex flex-col md:flex-row">
                 <div className="flex flex-col mb-2">
                   <label
                     htmlFor=""
@@ -295,10 +319,12 @@ const AddVehicle = () => {
                     Model Year
                   </label>
                   <input
-                    type="number"
-                    id="name"
-                    placeholder="2015"
+                    type="text"
+                    id="modelYear"
+                    placeholder="2020"
                     className={`${formInputClass} pl-0`}
+                    value={formData.modelYear}
+                    onChange={handleFormDataChange}
                   />
                 </div>
                 <div className="flex flex-col mb-2">
@@ -310,9 +336,11 @@ const AddVehicle = () => {
                   </label>
                   <input
                     type="number"
-                    id="name"
-                    placeholder="32,000 KMs"
+                    id="kmsDriven"
+                    placeholder="20,000 KMs"
                     className={`${formInputClass} pl-0`}
+                    value={formData.kmsDriven}
+                    onChange={handleFormDataChange}
                   />
                 </div>
               </div>
@@ -327,9 +355,11 @@ const AddVehicle = () => {
                   </label>
                   <input
                     type="text"
-                    id="City"
+                    id="city"
                     placeholder="New Delhi"
                     className={`${formInputClass} pl-0`}
+                    value={formData.city}
+                    onChange={handleFormDataChange}
                   />
                 </div>
                 <div className="flex flex-col mb-2">
@@ -341,9 +371,11 @@ const AddVehicle = () => {
                   </label>
                   <input
                     type="number"
-                    id="name"
+                    id="priceRegular"
                     placeholder="150,000 Rs"
                     className={`${formInputClass} pl-0`}
+                    value={formData.priceRegular}
+                    onChange={handleFormDataChange}
                   />
                 </div>
               </div>
@@ -358,6 +390,7 @@ const AddVehicle = () => {
                     <select
                       name="fuelType"
                       id="fuelType"
+                      value={formData.fuelType}
                       className="w-full sm:w-[10rem] h-8 bg-transparent border border-slate-500 rounded text-slate-300 pl-2 pr-2"
                     >
                       <option value="petrol">Petrol</option>
@@ -375,6 +408,8 @@ const AddVehicle = () => {
                     <select
                       name="fuelType"
                       id="fuelType"
+                      value={formData.fuelType}
+                      onChange={() => {}}
                       className="w-full sm:w-[10rem] h-8 bg-transparent border border-slate-500 rounded text-slate-300 pl-2 pr-2"
                     >
                       <option value="automatic">Automatic</option>
@@ -439,13 +474,13 @@ const AddVehicle = () => {
                       colors={colors}
                       color={selectedColor}
                       onChange={handleColorChange}
+                      value={formData.color}
                       className="rounded-lg pl-4 pr-4 pt-6 pb-0"
                     />
                   </div>
                   <div className="mx-auto flex text-sm font-extrabold pb-2">
                     {selectedColor && (
                       <p className={`mx-auto text-slate-400`}>
-                        {" "}
                         {selectedColor}
                       </p>
                     )}
@@ -463,6 +498,8 @@ const AddVehicle = () => {
                   <textarea
                     name="description"
                     id="description"
+                    onChange={handleFormDataChange}
+                    value={formData.description}
                     placeholder="Description"
                     cols="60"
                     rows="5"
@@ -476,7 +513,7 @@ const AddVehicle = () => {
                 Upload Image
               </h2>
               <div className="justify-start items-center">
-                <div className="flex relative flex-col sm:flex-row justify-center h-24 items-center space-x-8 pt-0 p-4">
+                <div className="flex relative flex-col sm:flex-row justify-center h-20 items-center space-x-8">
                   <div className="text-white">
                     <input
                       onChange={handleFileChange}
@@ -528,6 +565,15 @@ const AddVehicle = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="flex justify-center">
+              <button
+                className={`transition ease-in-out bg-slate-800 duration-500 rounded-lg border-slate-800 text-white w-[50%] sm:w-[40%] md:w-[20%] pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent mb-4`}
+                type="submit"
+                onClick={(e) => e.preventDefault()}
+              >
+                Add
+              </button>
             </div>
           </div>
         </form>
