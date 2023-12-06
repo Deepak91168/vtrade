@@ -1,49 +1,7 @@
 import mongoose from "mongoose";
+import moment from "moment";
 const vehicleSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    Brand: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    modelYear: {
-      type: String,
-      required: true,
-    },
-    regularPrice: {
-      type: Number,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: true,
-      enum: ["Silver", "White", "Black", "Red", "Blue", "Grey", "Brown"],
-    },
-    ownerName: {
-      type: String,
-      required: true,
-    },
-    owner: {
-      type: String,
-      required: true,
-      enum: ["1st Owner", "2nd Owner", "3rd Owner"],
-    },
-    transmission: {
-      type: String,
-      required: true,
-      enum: ["Automatic", "Automatic"],
-    },
     bodyType: {
       type: String,
       required: true,
@@ -58,10 +16,60 @@ const vehicleSchema = new mongoose.Schema(
         "Van",
         "Jeep",
         "Pickup",
-
       ],
     },
+    brand: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: true,
+      enum: ["Silver", "Black", "White", "Red", "Blue", "Grey", "Brown"],
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    fuelType: {
+      type: String,
+      required: true,
+      enum: ["Petrol", "Diesel", "Electric", "Hybrid", "CNG", "LPG"],
+    },
+    imageURls: {
+      type: Array,
+      required: true,
+    },
     kmsDriven: {
+      type: Number,
+      required: true,
+    },
+    modelYear: {
+      type: Number,
+      required: true,
+    },
+    offer: {
+      type: Boolean,
+      default: false,
+    },
+    ownerContact: {
+      type: Number,
+      required: true,
+    },
+    ownerName: {
+      type: String,
+      required: true,
+    },
+    ownerType: {
+      type: String,
+      required: true,
+      enum: ["1st Owner", "2nd Owner", "3rd Owner"],
+    },
+    priceRegular: {
       type: Number,
       required: true,
     },
@@ -70,35 +78,22 @@ const vehicleSchema = new mongoose.Schema(
       required: true,
       enum: [2, 4, 5, 6, 7, 8],
     },
-    fuelType: {
+    transmission: {
       type: String,
       required: true,
-      enum: ["Petrol", "Diesel", "Electric", "Hybrid", "CNG", "LPG"],
-    },
-    imageUrls: {
-      type: Array,
-      required: true,
-    },
-    features: {
-      type: Array,
-      required: true,
+      enum: ["Automatic", "Manual"],
     },
     userRef: {
       type: String,
       required: true,
     },
-    ownerContact: {
+    vehicleName: {
       type: String,
       required: true,
     },
-  
-    // createdBy: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User", // Reference to the User model
-    //   required: true,
-    // },
   },
   { timestamps: true }
 );
+
 const Vehicle = mongoose.model("Vehicle", vehicleSchema);
 export default Vehicle;

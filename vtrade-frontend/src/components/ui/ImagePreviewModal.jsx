@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 const ImagePreviewModal = ({ imageUrl, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-md">
-      <div className="max-w-screen-lg w-full max-h-[90vh] object-contain relative overflow-auto">
-        <div className="p-4">
+      <div className="max-w-screen-lg max-h-[90vh] object-contain relative overflow-auto">
+        <div className="p-4 flex justify-center">
           <motion.button
             whileHover={{
               rotate: 90,
@@ -22,7 +22,7 @@ const ImagePreviewModal = ({ imageUrl, onClose }) => {
           <img
             src={imageUrl}
             alt="Preview"
-            className=" max-h-full max-w-full rounded-lg object-contain overflow-hidden"
+            className=" max-h-full max-w-full rounded-lg object-contain overflow-none"
           />
         </div>
       </div>

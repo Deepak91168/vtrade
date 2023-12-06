@@ -8,10 +8,14 @@ import { getDownloadURL, getStorage } from "firebase/storage";
 import { app } from "../../firebase";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { getRandomFileName, getRandomValue } from "../../utils/RandomName";
-import { RxCross2 } from "react-icons/rx";
 import ImagePreview from "../../components/form/ImagePreview";
 import Uploader from "../../components/form/Uploader";
 import ImagePreviewModal from "../../components/ui/ImagePreviewModal";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { Loader } from "../../components/ui/Loader";
 // name
 //       Brand -
 //       city -
@@ -30,39 +34,38 @@ import ImagePreviewModal from "../../components/ui/ImagePreviewModal";
 //       features
 
 const AddVehicle = () => {
+  const currentUser = useSelector((state) => state.user);
   const ownerType = ["1st Owner", "2nd Owner", "3rd Owner"];
   const [imageFile, setImageFile] = useState([]);
   const [selectedColor, setSelectedColor] = useState("");
   const [uploading, setUploading] = useState(false);
   const [selectedOwnerType, setSelectedOwnerType] = useState(null);
-  const [selectFuelType, setSelectFuelType] = useState(null);
-  //TODO; Fuel Type, Transmission, Body Type, Seats
-  const [formData, setFormData] = useState({
-    imageURls: [],
-    ownerName: "",
-    ownerNumber: "",
-    vehicleName: "",
-    brand: "",
-    modelYear: "",
-    kmsDriven: "",
-    city: "",
-    priceRegular: "",
-    fuelType: "Petrol",
-    transmission: "Manual",
-    bodyType: "Sedan",
-    seats: 4,
-    color: selectedColor,
-    ownerType: "",
-  });
   const [previewImage, setPreviewImage] = useState(null);
+  const [loading, setLoading] = useState(false); // For loading the form
   const [uploadError, setUploadError] = useState({
     error: false,
     message: "",
   });
-
-  console.log(formData);
-
   const colors = ["Silver", "Black", "white", "Red", "Blue", "Grey", "Brown"]; // Seven colors
+  const [formData, setFormData] = useState({
+    bodyType: "Sedan",
+    brand: "",
+    city: "",
+    color: selectedColor,
+    fuelType: "Petrol",
+    imageURls: [],
+    kmsDriven: "",
+    modelYear: "",
+    offer: false,
+    ownerName: "",
+    ownerContact: "",
+    ownerType: "",
+    priceDiscounted: "",
+    priceRegular: "",
+    seats: 2,
+    transmission: "Automatic",
+    vehicleName: "",
+  });
 
   const handleColorChange = (color) => {
     const colorName = color.hex;
@@ -81,7 +84,6 @@ const AddVehicle = () => {
     setImageFile(e.target.files);
   };
 
-  //TODO: Clear Input Fields after submission or error
   const clearFileField = () => {
     setImageFile([]);
   };
@@ -139,14 +141,11 @@ const AddVehicle = () => {
         });
         setUploading(false);
       } catch (error) {
-        // Handle Error State
         setUploading(false);
         setUploadError({
           error: true,
           message: error.message,
         });
-        // console.log("Here we encountered an error!");
-        // console.log(error);
       }
     } else {
       setUploading(false);
@@ -155,9 +154,7 @@ const AddVehicle = () => {
         error: true,
         message: "Max 8 images are allowed!",
       });
-      // console.log("Max Image length exceeded");
     }
-    // console.log(imageFile);
   };
   const handleRemoveImagePreview = (index) => {
     setFormData({
@@ -180,8 +177,16 @@ const AddVehicle = () => {
       });
     }, 5000);
   }, [uploadError.error]);
+
   const handleFormDataChange = (e) => {
     const { id, value } = e.target;
+    if (id === "offer") {
+      setFormData({
+        ...formData,
+        [id]: e.target.checked,
+      });
+      return;
+    }
     setFormData({
       ...formData,
       [id]: value,
@@ -189,13 +194,46 @@ const AddVehicle = () => {
   };
   const handleOwnerTypeChange = (i) => {
     setSelectedOwnerType((prev) => {
-      console.log(ownerType[i]);
       if (prev === i) {
         return null;
       }
       return i;
     });
   };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // console.log(Object.keys(currentUser.currentUser));
+      setLoading(true);
+      if (formData.offer && formData.priceDiscounted >= formData.priceRegular) {
+        toast.error("Discounted Price should be less than Regular Price");
+        setLoading(false);
+        return;
+      }
+      if (formData.imageURls.length === 0) {
+        toast.error("Please upload Atleast one image!");
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      const res = await axios.post(
+        "http://localhost:3000/api/vehicle/create",
+        {
+          ...formData,
+          userRef: currentUser.currentUser._id,
+        },
+        { withCredentials: true }
+      );
+      setLoading(false);
+    } catch (error) {
+      // console.log(error);
+      toast.error(error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="mt-8">
       <div>
@@ -208,7 +246,7 @@ const AddVehicle = () => {
         <form className="mt-4 text-white" action="">
           <div className="">
             <Heading className="text-[0.9em] sm:text-md pb-0" title="Owner" />
-            <div className="flex flex-col sm:flex-row space-x-4  items-center justify-center m-4 mb-0 sm:mx-auto mt-0">
+            <div className="flex flex-col sm:flex-row space-x-4 items-center sm:items-start justify-center m-4 mb-0 sm:mx-auto mt-0">
               <div className="flex flex-col mb-2">
                 <label
                   htmlFor=""
@@ -220,9 +258,10 @@ const AddVehicle = () => {
                   type="text"
                   id="ownerName"
                   placeholder="Deepak Singh"
-                  className={`${formInputClass} ml-4 pl-0`}
+                  className={`${formInputClass}`}
                   onChange={handleFormDataChange}
                   value={formData.ownerName}
+                  required
                 />
               </div>
               <div className="flex flex-col mb-2">
@@ -234,11 +273,12 @@ const AddVehicle = () => {
                 </label>
                 <input
                   type="number"
-                  id="ownerNumber"
+                  id="ownerContact"
                   placeholder="+91 9876543210"
                   className={`${formInputClass} pl-0`}
                   onChange={handleFormDataChange}
-                  value={formData.ownerNumber}
+                  value={formData.ownerContact}
+                  required
                 />
               </div>
             </div>
@@ -281,7 +321,7 @@ const AddVehicle = () => {
                     htmlFor=""
                     className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
                   >
-                    Name
+                    Vehicle Name
                   </label>
                   <input
                     type="text"
@@ -290,6 +330,7 @@ const AddVehicle = () => {
                     className={`${formInputClass} pl-0`}
                     value={formData.vehicleName}
                     onChange={handleFormDataChange}
+                    required
                   />
                 </div>
                 <div className="flex flex-col mb-2">
@@ -306,41 +347,7 @@ const AddVehicle = () => {
                     className={`${formInputClass} pl-0`}
                     value={formData.brand}
                     onChange={handleFormDataChange}
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row">
-                <div className="flex flex-col mb-2">
-                  <label
-                    htmlFor=""
-                    className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
-                  >
-                    Model Year
-                  </label>
-                  <input
-                    type="text"
-                    id="modelYear"
-                    placeholder="2020"
-                    className={`${formInputClass} pl-0`}
-                    value={formData.modelYear}
-                    onChange={handleFormDataChange}
-                  />
-                </div>
-                <div className="flex flex-col mb-2">
-                  <label
-                    htmlFor=""
-                    className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
-                  >
-                    KMs Driven
-                  </label>
-                  <input
-                    type="number"
-                    id="kmsDriven"
-                    placeholder="20,000 KMs"
-                    className={`${formInputClass} pl-0`}
-                    value={formData.kmsDriven}
-                    onChange={handleFormDataChange}
+                    required
                   />
                 </div>
               </div>
@@ -360,6 +367,7 @@ const AddVehicle = () => {
                     className={`${formInputClass} pl-0`}
                     value={formData.city}
                     onChange={handleFormDataChange}
+                    required
                   />
                 </div>
                 <div className="flex flex-col mb-2">
@@ -376,8 +384,83 @@ const AddVehicle = () => {
                     className={`${formInputClass} pl-0`}
                     value={formData.priceRegular}
                     onChange={handleFormDataChange}
+                    required
                   />
                 </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row">
+                <div className="flex flex-col mb-2 ">
+                  <label
+                    htmlFor=""
+                    className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
+                  >
+                    Model Year
+                  </label>
+                  <input
+                    type="number"
+                    id="modelYear"
+                    max={new Date().getFullYear()}
+                    placeholder="2021"
+                    className={`${formInputClass} pl-0`}
+                    value={formData.modelYear}
+                    onChange={handleFormDataChange}
+                    required
+                  />
+                </div>
+                <div className="flex flex-col mb-2">
+                  <label
+                    htmlFor=""
+                    className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
+                  >
+                    KMs Driven
+                  </label>
+                  <input
+                    type="number"
+                    id="kmsDriven"
+                    placeholder="20,000 KMs"
+                    className={`${formInputClass} pl-0`}
+                    value={formData.kmsDriven}
+                    onChange={handleFormDataChange}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex mt-4 relative pb-6 sm:mb-4 flex-col sm:flex-row justify-center items-center">
+              <div className="flex">
+                <div className=" flex">
+                  <input
+                    id="offer"
+                    type="checkbox"
+                    checked={formData.offer}
+                    onChange={handleFormDataChange}
+                    className=" sm:mt-0 cursor-pointer"
+                  />
+                </div>
+                <label htmlFor="" className="text-sm pl-2 text-slate-400 p-2">
+                  Offer
+                </label>
+              </div>
+              {formData.offer && (
+                <motion.div
+                  animate={{ x: 5 }}
+                  transition={{ ease: "easeInOut", duration: 0.5 }}
+                  className=""
+                >
+                  <input
+                    type="number"
+                    id="priceDiscounted"
+                    placeholder="Discounted Price"
+                    className={`${formInputClass}`}
+                    value={formData.priceDiscounted}
+                    onChange={handleFormDataChange}
+                  />
+                </motion.div>
+              )}
+
+              <div className="absolute text-[0.6rem] text-slate-400 bottom-0">
+                Discounted Price should be less than Regular Price
               </div>
             </div>
             <div className="flex items-center mx-auto justify-center text-slate-300  text-[0.7rem] sm:text-[0.8rem] p2-4">
@@ -388,17 +471,19 @@ const AddVehicle = () => {
                   </label>
                   <div className="pt-2">
                     <select
+                      required
                       name="fuelType"
                       id="fuelType"
                       value={formData.fuelType}
+                      onChange={handleFormDataChange}
                       className="w-full sm:w-[10rem] h-8 bg-transparent border border-slate-500 rounded text-slate-300 pl-2 pr-2"
                     >
-                      <option value="petrol">Petrol</option>
-                      <option value="diesel">Diesel</option>
-                      <option value="cng">CNG</option>
-                      <option value="electric">Electric</option>
-                      <option value="hybrid">Hybrid</option>
-                      <option value="lpg">LPG</option>
+                      <option value="Petrol">Petrol</option>
+                      <option value="Diesel">Diesel</option>
+                      <option value="CNG">CNG</option>
+                      <option value="Electric">Electric</option>
+                      <option value="Hybrid">Hybrid</option>
+                      <option value="LPG">LPG</option>
                     </select>
                   </div>
                 </div>
@@ -406,14 +491,15 @@ const AddVehicle = () => {
                   <label htmlFor="">Transmission</label>
                   <div className="pt-2">
                     <select
-                      name="fuelType"
-                      id="fuelType"
-                      value={formData.fuelType}
-                      onChange={() => {}}
+                      required
+                      name="transmission"
+                      id="transmission"
+                      value={formData.transmission}
+                      onChange={handleFormDataChange}
                       className="w-full sm:w-[10rem] h-8 bg-transparent border border-slate-500 rounded text-slate-300 pl-2 pr-2"
                     >
-                      <option value="automatic">Automatic</option>
-                      <option value="manual">Manual</option>
+                      <option value="Automatic">Automatic</option>
+                      <option value="Manual">Manual</option>
                     </select>
                   </div>
                 </div>
@@ -423,20 +509,23 @@ const AddVehicle = () => {
                   <label htmlFor="">Body Type</label>
                   <div className="pt-2">
                     <select
-                      name="fuelType"
-                      id="fuelType"
+                      required
+                      name="bodyType"
+                      id="bodyType"
+                      value={formData.bodyType}
+                      onChange={handleFormDataChange}
                       className="w-full sm:w-[10rem] h-8 bg-transparent border border-slate-500 rounded text-slate-300 pl-2 pr-2"
                     >
-                      <option value="sedan">Sedan</option>
-                      <option value="hatchback">Hatchback</option>
-                      <option value="suv">SUV</option>
-                      <option value="crossover">Crossover</option>
-                      <option value="coupe">Coupe</option>
-                      <option value="convertible">Convertible</option>
-                      <option value="wagon">Wagon</option>
-                      <option value="van">Van</option>
-                      <option value="jeep">Jeep</option>
-                      <option value="pickup">Pickup</option>
+                      <option value="Sedan">Sedan</option>
+                      <option value="Hatchback">Hatchback</option>
+                      <option value="SUV">SUV</option>
+                      <option value="Crossover">Crossover</option>
+                      <option value="Coupe">Coupe</option>
+                      <option value="Convertible">Convertible</option>
+                      <option value="Wagon">Wagon</option>
+                      <option value="Van">Van</option>
+                      <option value="Jeep">Jeep</option>
+                      <option value="Pickup">Pickup</option>
                     </select>
                   </div>
                 </div>
@@ -444,16 +533,19 @@ const AddVehicle = () => {
                   <label htmlFor="">Seats</label>
                   <div className="pt-2">
                     <select
-                      name="fuelType"
-                      id="fuelType"
+                      name="seats"
+                      id="seats"
+                      required
+                      value={formData.seats}
+                      onChange={handleFormDataChange}
                       className="w-full sm:w-[10rem] h-8 bg-transparent border border-slate-500 rounded text-slate-300 pl-2 pr-2"
                     >
-                      <option value="two">2</option>
-                      <option value="four">4</option>
-                      <option value="five">5</option>
-                      <option value="six">6</option>
-                      <option value="seven">7</option>
-                      <option value="eight">8</option>
+                      <option value="2">2</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
                     </select>
                   </div>
                 </div>
@@ -496,6 +588,7 @@ const AddVehicle = () => {
                 </h2>
                 <div>
                   <textarea
+                    required
                     name="description"
                     id="description"
                     onChange={handleFormDataChange}
@@ -567,13 +660,17 @@ const AddVehicle = () => {
               </div>
             </div>
             <div className="flex justify-center">
-              <button
-                className={`transition ease-in-out bg-slate-800 duration-500 rounded-lg border-slate-800 text-white w-[50%] sm:w-[40%] md:w-[20%] pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent mb-4`}
-                type="submit"
-                onClick={(e) => e.preventDefault()}
-              >
-                Add
-              </button>
+              {loading ? (
+                <Loader className={` mt-0 items-start mb-4`} />
+              ) : (
+                <button
+                  className={`transition ease-in-out bg-slate-800 duration-500 rounded-lg border-slate-800 text-white w-[20%] pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent`}
+                  type="submit"
+                  onClick={handleFormSubmit}
+                >
+                  Add
+                </button>
+              )}
             </div>
           </div>
         </form>

@@ -10,6 +10,8 @@ export const getVehicles = async (req, res) => {
 };
 export const createVehicle = async (req, res, next) => {
   try {
+    console.log("From Vehicle Controller");
+    console.log(req.body);
     const vehicle = await Vehicle.create(req.body);
     res.status(201).json(vehicle);
   } catch (error) {

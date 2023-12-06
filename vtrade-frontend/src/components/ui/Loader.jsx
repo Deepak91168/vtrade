@@ -3,7 +3,7 @@ export const Loader = ({ className }) => {
   return (
     <div className={`w-full flex justify-center items-center + ${className}`}>
       <LineWave
-        className="text-center border-2"
+        className="text-center"
         height="100"
         width="100"
         color="#4fa94d"

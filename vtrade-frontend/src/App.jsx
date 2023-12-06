@@ -7,14 +7,17 @@ import { SignIn } from "./pages/authentication/SignIn";
 import { About } from "./pages/general/About";
 import { Profile } from "./pages/user/Profile";
 import Layout from "./components/ui/Layout";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import AddVehicle from "./pages/vehicle/AddVehicle";
+import "react-toastify/dist/ReactToastify.css"; //? Required Toastify CSS
 
 function App() {
+  // const notify = () => toast("Wow so easy!");
   return (
     <>
       <BrowserRouter>
+        {/* <button onClick={notify}>BTN</button> */}
         <Layout>
           <Header />
           <Routes>
@@ -32,7 +35,8 @@ function App() {
         </Layout>
       </BrowserRouter>
       <ToastContainer
-        position="bottom-center"
+        // className="fixed top-0 right-0 z-50"
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -41,7 +45,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
       />
     </>
   );
