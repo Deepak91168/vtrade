@@ -1,12 +1,13 @@
 import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
+import Vehicle from "../models/vehicleModel.js";
 import { customError } from "../utils/customError.js";
 
 export const getUser = (req, res) => {
   res.send("API is running...");
 };
 
-//* Update User
+//* Update User Account
 export const updateUser = async (req, res, next) => {
   console.log("Updating User controller");
   console.log("User ID B", req.user.id);
@@ -41,7 +42,7 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
-//* Delete User
+//* Delete User Account
 export const deleteUser = async (req, res, next) => {
   const userId = req.params.id;
   if (req.user.id !== userId) {
@@ -51,6 +52,23 @@ export const deleteUser = async (req, res, next) => {
     await User.findByIdAndDelete(userId);
     res.clearCookie("access_token");
     res.status(200).json("User has been deleted...");
+  } catch (error) {
+    return next(error);
+  }
+};
+
+//* Get User Listed Vehicles
+export const getUserListedVehicles = async (req, res, next) => {
+  const userId = req.params.id;
+  // console.log(req.params.id);
+  if (req.user.id !== userId) {
+    return next(
+      customError(401, "You are not authorized to view this user's vehicles")
+    );
+  }
+  try {
+    const vehicle = await Vehicle.find({ userRef: userId });
+    res.status(200).json(vehicle);
   } catch (error) {
     return next(error);
   }

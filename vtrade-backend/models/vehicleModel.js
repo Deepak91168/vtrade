@@ -73,6 +73,9 @@ const vehicleSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    priceDiscounted: {
+      type: Number,
+    },
     seats: {
       type: Number,
       required: true,

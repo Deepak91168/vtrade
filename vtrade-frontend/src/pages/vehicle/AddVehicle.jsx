@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import Heading from "../../components/ui/Heading";
 import { CirclePicker } from "react-color";
@@ -16,6 +15,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Loader } from "../../components/ui/Loader";
+import { useNavigate } from "react-router-dom";
 // name
 //       Brand -
 //       city -
@@ -42,6 +42,7 @@ const AddVehicle = () => {
   const [selectedOwnerType, setSelectedOwnerType] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false); // For loading the form
+  const navigate = useNavigate();
   const [uploadError, setUploadError] = useState({
     error: false,
     message: "",
@@ -227,9 +228,11 @@ const AddVehicle = () => {
         { withCredentials: true }
       );
       setLoading(false);
+      const data = res.data;
+      toast.success("Vehicle Added Successfully!");
+      navigate(`/vehicle/${data._id}`);
     } catch (error) {
-      // console.log(error);
-      toast.error(error.message);
+      toast.error("All fields are required!");
       setLoading(false);
     }
   };
@@ -237,20 +240,26 @@ const AddVehicle = () => {
   return (
     <div className="mt-8">
       <div>
-        <Heading title="Add Vehicle for Sell" className="pb-0" />
+        <Heading
+          title="Add Vehicle for Sell"
+          className="pb-0 mb-[1px] text-[0.8em] sm:text-[1.2em]"
+        />
         <div className="w-full flex item-center justify-center">
           <hr className="text-slate-600 border-slate-600 w-20 lg:w-40 border-[0.5px] sm:border-[2px]" />
         </div>
       </div>
       <div className="max-w-5xl mx-2 sm:mx-auto">
-        <form className="mt-4 text-white" action="">
+        <form className="mt-2 text-white" action="">
           <div className="">
-            <Heading className="text-[0.9em] sm:text-md pb-0" title="Owner" />
-            <div className="flex flex-col sm:flex-row space-x-4 items-center sm:items-start justify-center m-4 mb-0 sm:mx-auto mt-0">
+            <Heading
+              className="text-[0.8em] sm:text-[1.2em] pb-0"
+              title="Owner"
+            />
+            <div className="flex flex-col md:flex-row justify-center ps-4">
               <div className="flex flex-col mb-2">
                 <label
                   htmlFor=""
-                  className="text-slate-300 pl-4 text-[0.6rem] sm:text-[0.8rem]"
+                  className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
                 >
                   Name
                 </label>
@@ -258,7 +267,7 @@ const AddVehicle = () => {
                   type="text"
                   id="ownerName"
                   placeholder="Deepak Singh"
-                  className={`${formInputClass}`}
+                  className={`${formInputClass} pl-0`}
                   onChange={handleFormDataChange}
                   value={formData.ownerName}
                   required
@@ -311,11 +320,11 @@ const AddVehicle = () => {
           </div>
           <div className="mt-6">
             <Heading
-              className="text-[0.9em] sm:text-md sm pb-0"
+              className="text-[0.8em] sm:text-[1.2em] sm pb-0"
               title="Vehicle Details"
             />
             <div className="flex flex-col xl:flex-row mx-auto items-center justify-center">
-              <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col md:flex-row w-full justify-center ps-4">
                 <div className="flex flex-col mb-2">
                   <label
                     htmlFor=""
@@ -338,21 +347,21 @@ const AddVehicle = () => {
                     htmlFor=""
                     className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
                   >
-                    Brand
+                    Model Year
                   </label>
                   <input
-                    type="text"
-                    id="brand"
-                    placeholder="BMW"
+                    type="number"
+                    id="modelYear"
+                    placeholder="2021"
                     className={`${formInputClass} pl-0`}
-                    value={formData.brand}
+                    value={formData.modelYear}
                     onChange={handleFormDataChange}
                     required
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col md:flex-row w-full justify-center ps-4">
                 <div className="flex flex-col mb-2">
                   <label
                     htmlFor=""
@@ -389,21 +398,20 @@ const AddVehicle = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row">
-                <div className="flex flex-col mb-2 ">
+              <div className="flex flex-col md:flex-row w-full justify-center ps-4">
+                <div className="flex flex-col mb-2">
                   <label
                     htmlFor=""
                     className="text-slate-300 text-[0.6rem] sm:text-[0.8rem]"
                   >
-                    Model Year
+                    Brand
                   </label>
                   <input
-                    type="number"
-                    id="modelYear"
-                    max={new Date().getFullYear()}
-                    placeholder="2021"
+                    type="text"
+                    id="brand"
+                    placeholder="BMW"
                     className={`${formInputClass} pl-0`}
-                    value={formData.modelYear}
+                    value={formData.brand}
                     onChange={handleFormDataChange}
                     required
                   />
@@ -427,6 +435,7 @@ const AddVehicle = () => {
                 </div>
               </div>
             </div>
+
             <div className="flex mt-4 relative pb-6 sm:mb-4 flex-col sm:flex-row justify-center items-center">
               <div className="flex">
                 <div className=" flex">
@@ -554,7 +563,7 @@ const AddVehicle = () => {
             <div className="flex flex-col-reverse md:flex-row justify-center space-x-2 items-center mt-4 w-full p-2 mb-4">
               <div className="w-full md:w-auto mt-4 md:mt-0">
                 <h2
-                  className="text-sm md:text-[0.9em] text-center text-slate-400 font-semibold p-2 pl-0 pt-0"
+                  className="text-[0.6em] sm:text-[0.8em] text-center text-slate-400 font-semibold p-2 pl-0 pt-0"
                   title="Color"
                 >
                   Color
@@ -581,7 +590,7 @@ const AddVehicle = () => {
               </div>
               <div className="mt-4 md:mt-0 w-full md:auto">
                 <h2
-                  className="text-sm md:text-[0.9em] text-center  text-slate-400 font-semibold p-2 pl-0 pt-0"
+                  className="text-[0.6em] sm:text-[0.8em] text-center  text-slate-400 font-semibold p-2 pl-0 pt-0"
                   title="Color"
                 >
                   Description
@@ -602,11 +611,11 @@ const AddVehicle = () => {
               </div>
             </div>
             <div className="">
-              <h2 className="text-sm md:text-[0.9em] text-center text-slate-400 font-semibold p-2 pl-0 pt-0">
+              <h2 className="text-[0.6em] sm:text-[0.8em] text-center text-slate-400 font-semibold p-2 pl-0 pt-0">
                 Upload Image
               </h2>
               <div className="justify-start items-center">
-                <div className="flex relative flex-col sm:flex-row justify-center h-20 items-center space-x-8">
+                <div className="flex flex-col sm:flex-row justify-center items-center space-x-8">
                   <div className="text-white">
                     <input
                       onChange={handleFileChange}
@@ -616,28 +625,32 @@ const AddVehicle = () => {
                       allow="image/*"
                     />
                   </div>
-                  <div>
+                  <div className="mt-4 sm:mt-0">
                     <button
                       type="button"
                       disabled={uploading}
                       onClick={handleImageUpload}
-                      className={`text-slate-400 p-2 font-bold hover:text-slate-200 transition ease-in-out duration-300 text-[0.8rem]`}
+                      className={`text-white pr-4 mb-2 pl-4 p-2 text-center font-bold hover:text-slate-200 transition ease-in-out duration-300 hover:bg-transparent border-slate-500 bg-slate-700 border-[0.5px] mt-2 rounded-md text-[0.5em] sm:text-[0.6em]`}
                     >
                       {uploading ? <Uploader /> : "Upload"}
                     </button>
                   </div>
-                  {uploadError.error && (
-                    <p className="absolute text-red-500 bottom-0 text-[0.6rem] sm:text-[0.7rem]  mb-2">
-                      {uploadError.message}
-                    </p>
-                  )}
+                </div>
+                <div>
+                  <div className="flex justify-center">
+                    {uploadError.message && (
+                      <p className=" text-red-500 text-[0.6rem] sm:text-[0.7rem]  mb-2">
+                        {uploadError.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="mt-2">
                   {/* <h1 className="text-center text-slate-400 text-sm mb-2">
                     Preview
                   </h1> */}
-                  <div className=" flex justify-center items-center">
-                    <div className="p-4 pt-0 w-full flex flex-wrap justify-center text-white">
+                  <div className="pb-2 flex justify-center items-center">
+                    <div className="w-full flex flex-wrap justify-center text-white">
                       {formData.imageURls.length > 0 &&
                         formData.imageURls.map((url, index) => (
                           <ImagePreview
@@ -659,7 +672,7 @@ const AddVehicle = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-4">
               {loading ? (
                 <Loader className={` mt-0 items-start mb-4`} />
               ) : (
