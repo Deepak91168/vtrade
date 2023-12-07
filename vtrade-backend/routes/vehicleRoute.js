@@ -4,9 +4,11 @@ import {
   getVehicles,
   createVehicle,
   deleteVehicle,
+  updateVehicle,
 } from "../controllers/vehicleController.js";
 import { isAuthenticated } from "../utils/isAuthenticatedUser.js";
-router.get("/", getVehicles);
+router.get("/get-vehicle/:id", getVehicles);
 router.post("/create", isAuthenticated, createVehicle);
 router.delete("/delete/:id", isAuthenticated, deleteVehicle);
+router.put("/update/:id", isAuthenticated, updateVehicle);
 export default router;

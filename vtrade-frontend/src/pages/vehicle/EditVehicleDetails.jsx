@@ -16,14 +16,16 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Loader } from "../../components/ui/Loader";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-
-const AddVehicle = () => {
+const EditVehicleDetails = () => {
+  const params = useParams();
   const currentUser = useSelector((state) => state.user);
   const ownerType = ["1st Owner", "2nd Owner", "3rd Owner"];
   const [imageFile, setImageFile] = useState([]);
   const [selectedColor, setSelectedColor] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [selectedOwnerType, setSelectedOwnerType] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false); // For loading the form
   const navigate = useNavigate();
@@ -52,14 +54,49 @@ const AddVehicle = () => {
     vehicleName: "",
     description: "",
   });
-  const [selectedOwnerType, setSelectedOwnerType] = useState(null);
+
+  useEffect(() => {
+    const fetchVehicle = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/vehicle/get-vehicle/${params.vehicleID}`,
+          {
+            withCredentials: true,
+          }
+        );
+        const vehicle = response.data;
+        setFormData({
+          bodyType: vehicle.bodyType,
+          brand: vehicle.brand,
+          city: vehicle.city,
+          color: vehicle.color,
+          fuelType: vehicle.fuelType,
+          imageURls: vehicle.imageURls,
+          kmsDriven: vehicle.kmsDriven,
+          modelYear: vehicle.modelYear,
+          offer: vehicle.offer,
+          ownerName: vehicle.ownerName,
+          ownerContact: vehicle.ownerContact,
+          ownerType: vehicle.ownerType,
+          priceDiscounted: vehicle.priceDiscounted,
+          priceRegular: vehicle.priceRegular,
+          seats: vehicle.seats,
+          transmission: vehicle.transmission,
+          vehicleName: vehicle.vehicleName,
+          description: vehicle.description,
+        });
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    fetchVehicle();
+  }, [params.vehicleID]);
 
   const handleColorChange = (color) => {
     const colorName = color.hex;
     setSelectedColor(VehicleColorMap[colorName]);
   };
 
-  
   useEffect(() => {
     setFormData({
       ...formData,
@@ -180,7 +217,6 @@ const AddVehicle = () => {
       [id]: value,
     });
   };
-  console.log(formData);
   const handleOwnerTypeChange = (i) => {
     setSelectedOwnerType((prev) => {
       if (prev === i) {
@@ -197,11 +233,8 @@ const AddVehicle = () => {
       setLoading(true);
       if (formData.offer && formData.priceDiscounted >= formData.priceRegular) {
         toast.error("Discounted Price should be less than Regular Price");
-        setFormData({
-          ...formData,
-          priceDiscounted: "",
-        });
         setLoading(false);
+        return;
       }
       if (formData.imageURls.length === 0) {
         toast.error("Please upload Atleast one image!");
@@ -210,8 +243,8 @@ const AddVehicle = () => {
       }
 
       setLoading(true);
-      const res = await axios.post(
-        "http://localhost:3000/api/vehicle/create",
+      const res = await axios.put(
+        `http://localhost:3000/api/vehicle/update/${params.vehicleID}`,
         {
           ...formData,
           userRef: currentUser.currentUser._id,
@@ -227,12 +260,11 @@ const AddVehicle = () => {
       setLoading(false);
     }
   };
-
   return (
     <div className="mt-8">
       <div>
         <Heading
-          title="Add Vehicle for Sell"
+          title="Edit Details"
           className="pb-0 mb-[1px] text-[0.8em] sm:text-[1.2em]"
         />
         <div className="w-full flex item-center justify-center">
@@ -293,7 +325,10 @@ const AddVehicle = () => {
                       <input
                         // id="1stOwner"
                         type="checkbox"
-                        checked={index === selectedOwnerType}
+                        checked={
+                          index === selectedOwnerType ||
+                          formData.ownerType === owner
+                        }
                         onChange={() => handleOwnerTypeChange(index)}
                         className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
@@ -571,9 +606,9 @@ const AddVehicle = () => {
                     />
                   </div>
                   <div className="mx-auto flex text-sm font-extrabold pb-2">
-                    {selectedColor && (
+                    {formData.color && (
                       <p className={`mx-auto text-slate-400`}>
-                        {selectedColor}
+                        {formData.color}
                       </p>
                     )}
                   </div>
@@ -672,7 +707,7 @@ const AddVehicle = () => {
                   type="submit"
                   onClick={handleFormSubmit}
                 >
-                  Add
+                  Update
                 </button>
               )}
             </div>
@@ -683,4 +718,4 @@ const AddVehicle = () => {
   );
 };
 
-export default AddVehicle;
+export default EditVehicleDetails;

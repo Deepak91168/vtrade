@@ -3,8 +3,15 @@ import User from "../models/userModel.js";
 import Vehicle from "../models/vehicleModel.js";
 import { customError } from "../utils/customError.js";
 
-export const getUser = (req, res) => {
-  res.send("API is running...");
+export const getUserByID = async (req, res) => {
+  const userID = req.params.id;
+  try {
+    const user = await User.findById(userID);
+    const { password, ...others } = user._doc;
+    res.status(200).json(others);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 //* Update User Account
