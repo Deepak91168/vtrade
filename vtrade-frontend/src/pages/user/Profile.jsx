@@ -27,10 +27,12 @@ import {
   logoutFailure,
 } from "../../redux/user/userSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";
+import { FaGasPump, FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { PiEngineFill } from "react-icons/pi";
 import { FaCircle } from "react-icons/fa";
+import { MdElectricBolt } from "react-icons/md";
+import { MdElectricCar } from "react-icons/md";
 export const Profile = () => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -42,6 +44,7 @@ export const Profile = () => {
   const [profileData, setProfileData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [userVehicles, setUserVehicles] = useState([]);
+  const [showListing, setShowListing] = useState(false);
   const dispatch = useDispatch();
 
   //* Avatar Upload
@@ -200,6 +203,7 @@ export const Profile = () => {
 
   //Show Vehicle Listings
   const handleShowVehicleListings = async () => {
+    setShowListing((prev) => !prev);
     try {
       const res = await axios.get(
         `http://localhost:3000/api/user/vehicle/${currentUser._id}`,
@@ -207,10 +211,8 @@ export const Profile = () => {
           withCredentials: true,
         }
       );
-      console.log(res.data);
       setUserVehicles(res.data);
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -220,6 +222,40 @@ export const Profile = () => {
     return Math.round(percentage);
   };
 
+  const handleVehicleDelete = async (vehicleID) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:3000/api/vehicle/delete/${vehicleID}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res.data);
+      setUserVehicles((prev) =>
+        prev.filter((vehicle) => vehicle._id !== vehicleID)
+      );
+      toast.success("Vehicle Deleted Successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+  const setFuelType = (fuelType) => {
+    if (
+      fuelType === "Petrol" ||
+      fuelType === "Diesel" ||
+      fuelType === "CNG" ||
+      fuelType === "LPG"
+    ) {
+      return <FaGasPump className="text-[0.8rem]" />;
+    } else if (fuelType === "Electric") {
+      return <MdElectricBolt className="text-[0.8rem]" />;
+    } else if (fuelType === "Hybrid") {
+      return <MdElectricCar className="text-[0.8rem]" />;
+    } else {
+      return <PiEngineFill className="text-[0.8rem]" />;
+    }
+  };
   return (
     <>
       <Container>
@@ -393,76 +429,81 @@ export const Profile = () => {
         <div className="text-white flex justify-center mt-4">
           <button
             onClick={handleShowVehicleListings}
-            className="text-[0.7rem] text-slate-400 transition ease-in-out duration-300 hover:cursor-pointer hover:text-slate-200"
+            className={`text-[0.7rem] text-slate-400 transition ease-in-out duration-300 hover:cursor-pointer hover:text-slate-200`}
           >
-            Show Listed Vehicles
+            {!showListing ? "Show Listed Vehicles" : "Hide Listed Vehicles"}
           </button>
         </div>
       </Container>
-      <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 mt-4">
-        {userVehicles &&
-          userVehicles.length > 0 &&
-          userVehicles.map((vehicle, index) => (
-            <Link
-              to="/"
-              key={index}
-              className="mt-2 hover:opacity-90 w-[90%] md:[w-40%] lg:w-[35%] xl:w-[25%] transition ease-in-out duration-300"
-            >
-              <div className="flex flex-col justify-center border-slate-800 rounded-lg border-2 mt-4 mb-4 transition ease-in-out duration-300  hover:border-slate-600">
-                <div className="">
-                  <img
-                    src={vehicle.imageURls[0]}
-                    className=" object-cover w-full h-40 sm:h-32"
-                    alt="Vehicle image"
-                  />
-                  {/* //TODO: [Feature] Show Color of Vehicle */}
-                  {/* <FaCircle className="text-red-500 absolute top-0 right-0" /> */}
-                </div>
-                <div className="text-[0.6em] sm:text-[0.7em]">
-                  <div className="flex space-x-4 justify-between bg-slate-800 p-4">
-                    <div className="font-bold">{vehicle.vehicleName}</div>
-                    <div>
-                      &#x20B9;
-                      {vehicle.priceRegular.toLocaleString("en-US")}
-                    </div>
-                    <div>
-                      Driven {vehicle.kmsDriven.toLocaleString("en-US")} KMs
-                    </div>
-                    <div className="flex justify-center items-center">
-                      <PiEngineFill className="text-[0.8rem]" />{" "}
-                      <p className="pl-2">{vehicle.fuelType}</p>
-                    </div>
+      {showListing && (
+        <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 mt-4">
+          {userVehicles &&
+            userVehicles.length > 0 &&
+            userVehicles.map((vehicle, index) => (
+              <div
+                // to="/"
+                key={index}
+                className="mt-2 hover:opacity-90 w-[80%] md:[w-30%] lg:w-[25%] xl:[w-20%] transition ease-in-out duration-300"
+              >
+                <div className="flex flex-col justify-center border-slate-800 rounded-lg border-2 mt-2 mb-2 transition ease-in-out duration-300  hover:border-slate-600">
+                  <div className="">
+                    <img
+                      src={vehicle.imageURls[0]}
+                      className=" object-cover w-full h-40 sm:h-32"
+                      alt="Vehicle image"
+                    />
+                    {/* //TODO: [Feature] Show Color of Vehicle */}
+                    {/* <FaCircle className="text-red-500 absolute top-0 right-0" /> */}
                   </div>
-                  <div className="p-2 text-slate-300">
-                    {vehicle.description.split(" ").slice(0, 30).join(" ")}
-                  </div>
-                  <div className="flex justify-between items-center p-4 mb-0 bg-slate-800">
-                    <div className=" ">{vehicle.ownerContact}</div>
-                    <div className=" ">{vehicle.transmission}</div>
-                    <div className="">
-                      {vehicle.offer
-                        ? calculatePercentageOffer(
-                            vehicle.priceRegular,
-                            vehicle.priceDiscounted
-                          ) + "% Off"
-                        : "No offer"}
+                  <div className="text-[0.6em] sm:text-[0.7em]">
+                    <div className="flex space-x-4 justify-between bg-slate-800 p-4">
+                      <div className="font-bold">{vehicle.vehicleName}</div>
+                      <div>
+                        &#x20B9;
+                        {vehicle.priceRegular.toLocaleString("en-US")}
+                      </div>
+                      <div>
+                        Driven {vehicle.kmsDriven.toLocaleString("en-US")} KMs
+                      </div>
+                      <div className="flex justify-center items-center">
+                        {setFuelType(vehicle.fuelType)}
+                        <p className="pl-2">{vehicle.fuelType}</p>
+                      </div>
                     </div>
-                    <div>
-                      <div className="flex justify-end space-x-2 w-full bg-slate-800 p-1 sm:p-2">
-                        <button className="">
-                          <FaTrash className="text-[0.8rem] transition ease-in-out duration-100 hover:text-red-500" />
-                        </button>
-                        <button className="">
-                          <FaEdit className="text-[0.8rem] transition ease-in-out duration-100 hover:text-slate-400" />
-                        </button>
+                    <div className="p-2 text-slate-300">
+                      {vehicle.description.split(" ").slice(0, 30).join(" ")}
+                    </div>
+                    <div className="flex justify-between items-center p-4 mb-0 bg-slate-800">
+                      <div className=" ">{vehicle.ownerContact}</div>
+                      <div className=" ">{vehicle.transmission}</div>
+                      <div className="">
+                        {vehicle.offer
+                          ? calculatePercentageOffer(
+                              vehicle.priceRegular,
+                              vehicle.priceDiscounted
+                            ) + "% Off"
+                          : "No offer"}
+                      </div>
+                      <div>
+                        <div className="flex justify-end space-x-2 w-full bg-slate-800 p-1 sm:p-2">
+                          <button
+                            onClick={() => handleVehicleDelete(vehicle._id)}
+                            className=""
+                          >
+                            <FaTrash className="text-[0.8rem] transition ease-in-out duration-100 hover:text-red-500" />
+                          </button>
+                          <button className="">
+                            <FaEdit className="text-[0.8rem] transition ease-in-out duration-100 hover:text-slate-400" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </Link>
-          ))}
-      </div>
+            ))}
+        </div>
+      )}
     </>
   );
 };
