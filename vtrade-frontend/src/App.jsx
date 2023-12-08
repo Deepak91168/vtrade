@@ -12,6 +12,7 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import AddVehicle from "./pages/vehicle/AddVehicle";
 import "react-toastify/dist/ReactToastify.css"; //? Required Toastify CSS
 import EditVehicleDetails from "./pages/vehicle/EditVehicleDetails";
+import SearchVehicle from "./pages/search/SearchVehicle";
 import Vehicle from "./pages/vehicle/Vehicle";
 function App() {
   // const notify = () => toast("Wow so easy!");
@@ -35,6 +36,7 @@ function App() {
               />
             </Route>
             <Route path="/vehicle/:vehicleID" element={<Vehicle />} />
+            <Route path="/search" element={<SearchVehicle />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
           </Routes>
