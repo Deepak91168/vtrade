@@ -62,3 +62,100 @@ export const updateVehicle = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getVehiclesByFilter = async (req, res, next) => {
+  try {
+    // Extracting query parameters or setting defaults
+    const limit = parseInt(req.query.limit) || 9;
+    const startIndex = parseInt(req.query.startIndex) || 0;
+
+    // Filtering parameters
+    let offer = req.query.offer;
+    if (offer === undefined || offer === "false") {
+      offer = { $in: [false, true] };
+    } else if (offer === "true") {
+      offer = true;
+    }
+
+    let ownerType = req.query.ownerType;
+    if (ownerType === undefined || ownerType === "all") {
+      ownerType = { $in: ["1st Owner", "2nd Owner", "3rd Owner"] };
+    }
+
+    let transmission = req.query.transmission;
+    if (transmission === undefined || transmission === "all") {
+      transmission = { $in: ["Automatic", "Manual"] };
+    }
+
+    let fuelType = req.query.fuelType;
+    if (fuelType === undefined || fuelType === "all") {
+      fuelType = {
+        $in: ["Petrol", "Diesel", "Electric", "Hybrid", "LPG", "CNG"],
+      };
+    }
+
+    let bodyType = req.query.bodyType;
+    if (bodyType === undefined || bodyType === "all") {
+      bodyType = {
+        $in: [
+          "Sedan",
+          "Hatchback",
+          "SUV",
+          "Crossover",
+          "Coupe",
+          "Convertible",
+          "Wagon",
+          "Van",
+          "Jeep",
+          "Pickup",
+        ],
+      };
+    }
+
+    let city = req.query.city;
+    if (city === undefined || city === "all") {
+      city = { $regex: ``, $options: "i" };
+    }
+
+    let color = req.query.color;
+    if (color === undefined || color === "all") {
+      color = {
+        $in: ["Silver", "Black", "White", "Red", "Blue", "Grey", "Brown"],
+      };
+    }
+
+    let brand = req.query.brand;
+    if (brand === undefined || brand === "all") {
+      brand = { $regex: ``, $options: "i" };
+    }
+    let seats = req.query.seats;
+    if (seats === undefined || seats === "all") {
+      seats = { $gte: 0 };
+    }
+    //TODO: Price, Kms and Model Year filter
+
+    const searchTerm = req.query.searchTerm || "";
+    const sort = req.query.sort || "createdAt";
+    const order = req.query.order || "desc";
+
+    const vehicles = await Vehicle.find({
+      vehicleName: { $regex: searchTerm, $options: "i" },
+      offer,
+      transmission,
+      fuelType,
+      color,
+      city,
+      brand,
+      bodyType,
+      ownerType,
+      seats,
+    })
+      .sort([[sort, order]])
+      .limit(limit)
+      .skip(startIndex);
+
+    return res.status(200).json(vehicles);
+  } catch (error) {
+    next(error);
+  }
+};
