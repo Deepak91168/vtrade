@@ -7,13 +7,11 @@ const VehicleSearch = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(searchTerm);
-
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
+    console.log("Vehicle Search " + searchQuery);
     navigate(`/search?${searchQuery}`);
-    console.log("submitted");
   };
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);

@@ -6,6 +6,7 @@ import { MdElectricBolt } from "react-icons/md";
 import { MdElectricCar } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { IoCall } from "react-icons/io5";
+import { useEffect, useState } from "react";
 const calculatePercentageOffer = (priceRegular, priceDiscounted) => {
   const percentage = ((priceRegular - priceDiscounted) / priceRegular) * 100;
   return Math.round(percentage);
@@ -27,19 +28,29 @@ const setFuelType = (fuelType) => {
   }
 };
 const VehicleCard = ({ vehicle, index, handleVehicleDelete }) => {
-  console.log(vehicle);
+  const [currentImage, setCurrentImage] = useState(0);
+  const imageURls = vehicle.imageURls;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((currentImage) =>
+        currentImage === imageURls.length - 1 ? 0 : currentImage + 1
+      );
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [imageURls.length]);
+
   return (
     <div
-      // to="/"
       key={index}
-      // onClick={() => navigate(`/vehicle/${vehicle._id}`)}
       className="mt-2 hover:opacity-90 w-[80%] md:[w-30%] lg:w-[25%] xl:[w-20%] transition ease-in-out duration-300"
     >
       <div className="flex flex-col justify-center border-slate-600 rounded-md border-2 mt-2 mb-2 transition ease-in-out duration-300  hover:border-slate-500">
         <div className="">
           <img
-            src={vehicle.imageURls[0]}
+            // src={vehicle.imageURls[0]}
+            src={imageURls[currentImage]}
             className=" object-cover w-full h-48 sm:h-64 cursor-pointer"
             alt="Vehicle image"
             onClick={() => navigate(`/vehicle/${vehicle._id}`)}
@@ -66,7 +77,7 @@ const VehicleCard = ({ vehicle, index, handleVehicleDelete }) => {
             </div>
           </div>
           <div className="p-2 text-slate-300">
-            {vehicle.description.split(" ").slice(0, 40).join(" ")}...
+            {vehicle.description.split(" ").slice(0, 30).join(" ")}...
           </div>
           <div className="flex justify-between items-center p-4 mb-0 bg-slate-800">
             <div className="flex justify-between items-center space-x-1">

@@ -7,7 +7,7 @@ export const Header = () => {
 
   return (
     //TODO: Make Nav Bar fixed and make sure to add bg-black when content is scrolled
-    <header className="pt-4 pb-4 z-10 text-white bg-transparent w-full">
+    <header className="pt-4 pb-4 z-10 text-white bg-transparent w-full ">
       <div className="flex justify-between mx-auto items-center max-w-6xl">
         <h1 className="flex p-2">
           <Link to="/">

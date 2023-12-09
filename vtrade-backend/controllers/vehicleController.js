@@ -114,7 +114,7 @@ export const getVehiclesByFilter = async (req, res, next) => {
 
     let city = req.query.city;
     if (city === undefined || city === "all") {
-      city = { $regex: ``, $options: "i" };
+      city = { $regex: req.query.city || "", $options: "i" };
     }
 
     let color = req.query.color;
@@ -124,10 +124,6 @@ export const getVehiclesByFilter = async (req, res, next) => {
       };
     }
 
-    let brand = req.query.brand;
-    if (brand === undefined || brand === "all") {
-      brand = { $regex: ``, $options: "i" };
-    }
     let seats = req.query.seats;
     if (seats === undefined || seats === "all") {
       seats = { $gte: 0 };
@@ -145,7 +141,7 @@ export const getVehiclesByFilter = async (req, res, next) => {
       fuelType,
       color,
       city,
-      brand,
+      brand: { $regex: req.query.brand || "", $options: "i" },
       bodyType,
       ownerType,
       seats,
@@ -153,7 +149,8 @@ export const getVehiclesByFilter = async (req, res, next) => {
       .sort([[sort, order]])
       .limit(limit)
       .skip(startIndex);
-
+    if (vehicles.length === 0)
+      return res.status(200).json({ message: "No Vehicles Found" });
     return res.status(200).json(vehicles);
   } catch (error) {
     next(error);
