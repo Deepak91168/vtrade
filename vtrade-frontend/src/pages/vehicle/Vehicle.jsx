@@ -19,7 +19,6 @@ import { TbAutomaticGearbox } from "react-icons/tb";
 import { TbManualGearbox } from "react-icons/tb";
 import ContactOwner from "../../components/owner/ContactOwner";
 import { useSelector } from "react-redux";
-import { set } from "mongoose";
 
 const calculatePercentageOffer = (priceRegular, priceDiscounted) => {
   const percentage = ((priceRegular - priceDiscounted) / priceRegular) * 100;

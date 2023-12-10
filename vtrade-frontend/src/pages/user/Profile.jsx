@@ -446,6 +446,8 @@ export const Profile = () => {
                 key={index}
                 vehicle={vehicle}
                 handleVehicleDelete={handleVehicleDelete}
+                edit={true}
+                contactBtn={true}
               />
             ))}
         </div>
