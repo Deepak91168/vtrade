@@ -164,7 +164,7 @@ const SearchVehicle = () => {
     navigate(`/search?${searchQuery}`);
   };
   return (
-    <div className="flex justify-center relative">
+    <div className="flex justify-center relative mt-24">
       <div className="flex flex-col md:flex-row">
         <div
           className={`p-0 md:p-4 md:h-screen border-r-[1px] fixed right-0 ${
@@ -181,10 +181,10 @@ const SearchVehicle = () => {
                   }}
                   type="button"
                   onClick={() => setFilterActivated(false)}
-                  className="absolute z-10 top-0 right-2 transition ease-in-out duration-300 bg-slate-800 hover:bg-black p-2 cursor-pointer rounded-full"
+                  className="absolute z-10 top-0 right-6 transition ease-in-out duration-300 bg-slate-800 hover:bg-black p-2 cursor-pointer rounded-full"
                 >
                   <div>
-                    <RxCross2 className="text-white text-sm" />
+                    <RxCross2 className="text-white text-md" />
                   </div>
                 </motion.button>
               </div>
@@ -475,7 +475,7 @@ const SearchVehicle = () => {
                       value={filterData.kmsDrivenMin}
                       placeholder="min"
                       // defaultValue={0}
-                      className="bg-transparent transition w-[6rem] sm:w-auto ease-linear duration-300 border-b-2 p-1 border-slate-700 hover:border-slate-500 outline-none focus:bg-slate-900 focus:border-slate-200"
+                      className="bg-transparent transition w-[6rem] sm:w-auto  ease-linear duration-300 border-b-2 p-1 border-slate-700 hover:border-slate-500 outline-none focus:bg-slate-900 focus:border-slate-200"
                     />
                     <input
                       type="text"
@@ -490,7 +490,7 @@ const SearchVehicle = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-4">
               <button
                 type="submit"
                 className={` w-[50%] text-center transition ease-in-out bg-slate-800 text-white duration-500 rounded-lg border-slate-800 pt-3 pb-3 border-[1px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent`}
