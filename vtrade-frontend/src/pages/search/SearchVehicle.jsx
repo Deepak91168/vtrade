@@ -490,10 +490,10 @@ const SearchVehicle = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center pl-4 pr-4">
+            <div className="flex justify-center">
               <button
                 type="submit"
-                className={` w-full text-center transition ease-in-out bg-slate-800 text-white duration-500 rounded-lg border-slate-800 pt-3 pb-3 border-[1px] text-[0.6rem] md:text-sm hover:border-slate-600 hover:bg-transparent`}
+                className={` w-[50%] text-center transition ease-in-out bg-slate-800 text-white duration-500 rounded-lg border-slate-800 pt-3 pb-3 border-[1px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent`}
               >
                 Apply Filter
               </button>
@@ -514,7 +514,7 @@ const SearchVehicle = () => {
             </div>
           </div>
           {!loading ? (
-            <div className="flex flex-wrap sm:gap-2 justify-center sm:justify-start">
+            <div className="w-full flex flex-wrap justify-center items-center gap-2 mt-2">
               {vehicleData.length > 0 ? (
                 vehicleData.map((vehicle) => (
                   <VehicleCard

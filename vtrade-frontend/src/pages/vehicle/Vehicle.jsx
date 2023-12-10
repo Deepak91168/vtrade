@@ -75,7 +75,7 @@ const Vehicle = () => {
   return (
     <>
       {vehicle && !loading ? (
-        <div>
+        <div className="mt-32">
           <div className="flex flex-col sm:flex-row justify-center items-start w-full">
             <div className=" w-full sm:w-[50%] md:w-[30%] p-4 sm:p-2">
               {<ImageSlider images={vehicle.imageURls} />}

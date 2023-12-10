@@ -229,7 +229,7 @@ const AddVehicle = () => {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-32">
       <div>
         <Heading
           title="Add Vehicle for Sell"

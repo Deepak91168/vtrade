@@ -14,6 +14,8 @@ import "react-toastify/dist/ReactToastify.css"; //? Required Toastify CSS
 import EditVehicleDetails from "./pages/vehicle/EditVehicleDetails";
 import SearchVehicle from "./pages/search/SearchVehicle";
 import Vehicle from "./pages/vehicle/Vehicle";
+import Buy from "./pages/buyandsell/Buy";
+import Sell from "./pages/buyandsell/Sell";
 function App() {
   // const notify = () => toast("Wow so easy!");
   return (
@@ -37,8 +39,10 @@ function App() {
             </Route>
             <Route path="/vehicle/:vehicleID" element={<Vehicle />} />
             <Route path="/search" element={<SearchVehicle />} />
+            <Route path="/buy-vehicle" element={<Buy />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sell" element={<Sell />} />
           </Routes>
         </Layout>
       </BrowserRouter>

@@ -65,7 +65,7 @@ const VehicleCard = ({
   return (
     <div
       key={index}
-      className="m-2 sm:mt-2  md:w-[40%] lg:w-[30%]  transition ease-in-out duration-300"
+      className="m-2 sm:mt-2 w-full  md:w-[30%] lg:w-[20%]  transition ease-in-out duration-300"
     >
       <div className="flex flex-col justify-center border-slate-800 rounded-md border-2 mt-2 mb-2 transition ease-in-out duration-300  hover:border-slate-600">
         <div className="">
