@@ -163,7 +163,7 @@ const Vehicle = () => {
               </div>
             </div>
           </div>
-          <div className="text-white mt-4 flex justify-start mx-auto max-w-xl lg:max-w-4xl ">
+          <div className="text-white mt-4 flex justify-start mx-auto max-w-xl lg:max-w-4xl pb-[64px] ">
             <div className="">
               <p className="pl-4 font-bold text-slate-400">Description</p>
               <p className="text-[0.7rem] sm:text-sm p-4 text-slate-200">
@@ -185,7 +185,7 @@ const Vehicle = () => {
                       !contactOwner
                         ? "bg-slate-800 text-white"
                         : "bg-transparent border-none text-red-500"
-                    } duration-500 rounded-lg border-slate-800  w-[20%] p-4 border-[1px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent `}
+                    } duration-500 rounded-lg border-slate-800 p-4 border-[1px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent `}
                   >
                     {!contactOwner ? "Contact Owner" : "Close"}
                   </button>

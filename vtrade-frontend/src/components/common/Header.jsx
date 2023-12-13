@@ -21,7 +21,7 @@ export const Header = () => {
     setMobileViewActive(!mobileViewActive);
   };
   return (
-    <header className="pt-4 pb-4 z-10 text-white bg-black w-full fixed top-0 border-black border-b-2 shadow-slate-900 shadow-md ">
+    <header className="pt-4 pb-4 z-[25] text-white bg-black w-full fixed top-0 border-black border-b-2 shadow-slate-900 shadow-md">
       <div className="flex justify-between mx-auto items-center max-w-6xl">
         {/* Mobile Responsive */}
         <div
@@ -74,20 +74,11 @@ export const Header = () => {
           >
             <Link to="/about">About</Link>
           </li>
-          {!currentUser && (
-            <li
-              className={`transition ease-in-out ${
-                checkPath("/sign-in") && HighlightActivePath
-              } flex items-center justify-center p-2 rounded-md text-slate-300 mt-1 hover:bg-slate-800 transition ease-in-out duration-300`}
-            >
-              <Link to="/sign-in">SignIn</Link>
-            </li>
-          )}
         </div>
 
         <h1 className="flex">
           <Link to="/">
-            <div className="flex justify-center items-center ml-4 px-2 bg-slate-900 rounded-md transition ease-in-out duration-300">
+            <div className="flex justify-center items-center ml-4 px-2 rounded-md transition ease-in-out duration-300">
               <img src={logo} alt="" className="h-8 " />
               <span className="text-slate-400 pl-2 text-sm font-bold">
                 VTRADE

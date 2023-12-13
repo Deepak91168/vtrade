@@ -229,7 +229,7 @@ const AddVehicle = () => {
   };
 
   return (
-    <div className="mt-32">
+    <div className="mt-32 pb-[64px]">
       <div>
         <Heading
           title="Add Vehicle for Sell"

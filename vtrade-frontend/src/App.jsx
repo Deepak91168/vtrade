@@ -16,6 +16,7 @@ import SearchVehicle from "./pages/search/SearchVehicle";
 import Vehicle from "./pages/vehicle/Vehicle";
 import Buy from "./pages/buyandsell/Buy";
 import Sell from "./pages/buyandsell/Sell";
+import Footer from "./components/common/Footer";
 function App() {
   // const notify = () => toast("Wow so easy!");
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sell" element={<Sell />} />
           </Routes>
+          <Footer />
         </Layout>
       </BrowserRouter>
       <ToastContainer

@@ -438,7 +438,7 @@ export const Profile = () => {
         </div>
       </Container>
       {showListing && (
-        <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 mt-4">
+        <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 mt-4 pb-[64px]">
           {userVehicles &&
             userVehicles.length > 0 &&
             userVehicles.map((vehicle, index) => (
