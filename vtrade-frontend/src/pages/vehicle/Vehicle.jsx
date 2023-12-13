@@ -5,15 +5,11 @@ import ImageSlider from "../../components/vehicle/ImageSlider";
 import { IoMdColorFill } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaRoad } from "react-icons/fa";
-import { MdLocalOffer } from "react-icons/md";
-import { FaGasPump, FaTrash } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
+import { FaGasPump } from "react-icons/fa";
 import { PiEngineFill } from "react-icons/pi";
-import { FaCircle } from "react-icons/fa";
 import { MdElectricBolt } from "react-icons/md";
 import { MdElectricCar } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-
 import { BiSolidOffer } from "react-icons/bi";
 import { TbAutomaticGearbox } from "react-icons/tb";
 import { TbManualGearbox } from "react-icons/tb";
@@ -177,7 +173,7 @@ const Vehicle = () => {
               {!currentUser ? (
                 <p
                   onClick={() => navigate("/sign-in")}
-                  className="text-[0.7rem] cursor-pointer mx-auto w-full text-slate-400 text-center mt-4"
+                  className="text-[0.7rem] cursor-pointer mx-auto mb-4 w-full text-slate-400 text-center mt-4"
                 >
                   Log In to contact Owner
                 </p>
@@ -189,7 +185,7 @@ const Vehicle = () => {
                       !contactOwner
                         ? "bg-slate-800 text-white"
                         : "bg-transparent border-none text-red-500"
-                    } duration-500 rounded-lg border-slate-800  w-[20%] pt-3 pb-3 border-[1px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent`}
+                    } duration-500 rounded-lg border-slate-800  w-[20%] p-4 border-[1px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent `}
                   >
                     {!contactOwner ? "Contact Owner" : "Close"}
                   </button>

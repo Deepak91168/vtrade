@@ -24,12 +24,14 @@ const ImageSlider = ({ images }) => {
       </div>
       <div className=" absolute left-1/2 transform -translate-x-1/2 bottom-1">
         <button
+          name="arrow-left"
           className="bg-slate-900 p-2 mr-2 transition ease-in-out duration-300 hover:bg-slate-700  rounded-full"
           onClick={prevSlide}
         >
           <FaArrowLeft className="text-white text-[0.7rem]" />
         </button>
         <button
+          name="arrow-right"
           className="bg-slate-900 p-2 mr-2 transition ease-in-out duration-300  rounded-full hover:bg-slate-700"
           onClick={nextSlide}
         >
