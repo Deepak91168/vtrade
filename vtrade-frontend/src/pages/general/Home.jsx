@@ -48,7 +48,7 @@ export const Home = () => {
           )}
 
           <div className="text-white flex justify-around p-4">
-            <div className=" mt-40 bg-black- p-4 rounded-lg backdrop-blur-sm bg-opacity-20">
+            <div className="mt-40 sm:mt-40 bg-transparent p-4 ">
               <p className="text-xl font-bold text-slate-500 pb-4 ">
                 Shift Gears: Your Journey Starts Here, Buying or Selling.
               </p>
@@ -76,19 +76,12 @@ export const Home = () => {
                 >
                   Explore
                 </Link>
-
-                {/* <Link
-                  to={"/buy-vehicle"}
-                  className="text-slate-300 text-sm hover:bg-slate-700 border-slate-700 border-[0.5px]  p-2 px-4 rounded-md bg-transparent transition ease-in-out duration-300"
-                >
-                  Explore
-                </Link> */}
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* <ModelCanvas /> */}
+      <ModelCanvas />
     </div>
   );
 };

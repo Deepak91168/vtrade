@@ -433,12 +433,12 @@ export const Profile = () => {
             onClick={handleShowVehicleListings}
             className={`text-[0.7rem] text-slate-400 transition ease-in-out duration-300 hover:cursor-pointer hover:text-slate-200`}
           >
-            {!showListing ? "Show Listed Vehicles" : "Hide Listed Vehicles"}
+            {!showListing ? "Show Listed Vehicles" : "Show Less"}
           </button>
         </div>
       </Container>
       {showListing && (
-        <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 mt-4 pb-[64px]">
+        <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 pb-[64px]">
           {userVehicles &&
             userVehicles.length > 0 &&
             userVehicles.map((vehicle, index) => (

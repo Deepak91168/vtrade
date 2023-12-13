@@ -25,55 +25,57 @@ export const Header = () => {
       <div className="flex justify-between mx-auto items-center max-w-6xl">
         {/* Mobile Responsive */}
         <div
-          className={`fixed top-0 right-0 bg-black backdrop-blur-md bg-opacity-80 p-4 w-full mt-16 ${
+          className={`fixed z-10 top-0 right-0 bg-black backdrop-blur-lg bg-opacity-10 p-4 w-full mt-16 pt-10 ${
             !mobileViewActive && "hidden"
           }`}
         >
-          <motion.button
-            whileHover={{
-              rotate: 90,
-              transition: { duration: 0.3, ease: "easeInOut" },
-            }}
-            type="button"
-            className="absolute z-10 top-1 right-4 transition ease-in-out duration-300 hover:bg-black p-2 cursor-pointer rounded-full"
-          >
-            <div
-              onClick={() => {
-                setMobileViewActive(false);
+          <div>
+            <motion.button
+              whileHover={{
+                rotate: 90,
+                transition: { duration: 0.3, ease: "easeInOut" },
               }}
+              type="button"
+              className="absolute z-10 top-1 right-4 transition ease-in-out duration-300 hover:bg-black p-2 cursor-pointer rounded-full"
             >
-              <RxCross2 className="text-white text-xl" />
-            </div>
-          </motion.button>
-          <li
-            className={`transition ease-in-out ${
-              checkPath("/") && HighlightActivePath
-            } flex items-center justify-center text-slate-300 p-2 mt-1 rounded-md hover:bg-slate-800 transition ease-in-out duration-300`}
-          >
-            <Link to="/">Home</Link>
-          </li>
-          <li
-            className={`transition ease-in-out ${
-              checkPath("/buy-vehicle") && HighlightActivePath
-            } flex items-center justify-center p-2 rounded-md text-slate-300 mt-1 hover:bg-slate-800 transition ease-in-out duration-300`}
-          >
-            <Link to="/buy-vehicle">Buy</Link>
-          </li>
-          <li
-            className={`transition ease-in-out ${
-              (pathUrl === "/sell" || pathUrl === "/add-vehicle") &&
-              HighlightActivePath
-            } flex items-center justify-center p-2 rounded-md text-slate-300 mt-1 hover:bg-slate-800 transition ease-in-out duration-300`}
-          >
-            <Link to="/sell">Sell</Link>
-          </li>
-          <li
-            className={`transition ease-in-out ${
-              checkPath("/about") && HighlightActivePath
-            } flex items-center justify-center p-2 rounded-md text-slate-300 mt-1 hover:bg-slate-800 transition ease-in-out duration-300`}
-          >
-            <Link to="/about">About</Link>
-          </li>
+              <div
+                onClick={() => {
+                  setMobileViewActive(false);
+                }}
+              >
+                <RxCross2 className="text-white text-xl" />
+              </div>
+            </motion.button>
+            <li
+              className={`transition ease-in-out ${
+                checkPath("/") && HighlightActivePath
+              } flex items-center justify-center text-slate-300 p-2 mt-1 rounded-md hover:bg-slate-800 transition ease-in-out duration-300`}
+            >
+              <Link to="/">Home</Link>
+            </li>
+            <li
+              className={`transition ease-in-out ${
+                checkPath("/buy-vehicle") && HighlightActivePath
+              } flex items-center justify-center p-2 rounded-md text-slate-300 mt-1 hover:bg-slate-800 transition ease-in-out duration-300`}
+            >
+              <Link to="/buy-vehicle">Buy</Link>
+            </li>
+            <li
+              className={`transition ease-in-out ${
+                (pathUrl === "/sell" || pathUrl === "/add-vehicle") &&
+                HighlightActivePath
+              } flex items-center justify-center p-2 rounded-md text-slate-300 mt-1 hover:bg-slate-800 transition ease-in-out duration-300`}
+            >
+              <Link to="/sell">Sell</Link>
+            </li>
+            <li
+              className={`transition ease-in-out ${
+                checkPath("/about") && HighlightActivePath
+              } flex items-center justify-center p-2 rounded-md text-slate-300 mt-1 hover:bg-slate-800 transition ease-in-out duration-300`}
+            >
+              <Link to="/about">About</Link>
+            </li>
+          </div>
         </div>
 
         <h1 className="flex">
