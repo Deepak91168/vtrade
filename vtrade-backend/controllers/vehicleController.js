@@ -14,7 +14,6 @@ export const getVehicles = async (req, res, next) => {
 export const createVehicle = async (req, res, next) => {
   try {
     console.log("From Vehicle Controller");
-    console.log(req.body);
     const vehicle = await Vehicle.create(req.body);
     res.status(201).json(vehicle);
   } catch (error) {
@@ -33,6 +32,7 @@ export const deleteVehicle = async (req, res, next) => {
       res.status(200).json({ message: "Vehicle deleted" });
     } else {
       return next(customError(404, "Vehicle not found"));
+      console.log(req.body);
     }
   } catch (error) {
     next(error);
@@ -76,7 +76,7 @@ export const getVehiclesByFilter = async (req, res, next) => {
     } else if (offer === "true") {
       offer = true;
     }
-
+    
     let ownerType = req.query.ownerType;
     if (ownerType === undefined || ownerType === "all") {
       ownerType = { $in: ["1st Owner", "2nd Owner", "3rd Owner"] };
@@ -133,7 +133,8 @@ export const getVehiclesByFilter = async (req, res, next) => {
     const searchTerm = req.query.searchTerm || "";
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
-
+    console.log("SORT : ", sort);
+    console.log("SORT : ", order);
     const vehicles = await Vehicle.find({
       vehicleName: { $regex: searchTerm, $options: "i" },
       offer,

@@ -198,7 +198,6 @@ export const Profile = () => {
       });
       dispatch(logoutSuccess());
     } catch (error) {
-      console.log(error);
       dispatch(logoutFailure(error.message));
     }
   };
@@ -219,11 +218,6 @@ export const Profile = () => {
     }
   };
 
-  // const calculatePercentageOffer = (priceRegular, priceDiscounted) => {
-  //   const percentage = ((priceRegular - priceDiscounted) / priceRegular) * 100;
-  //   return Math.round(percentage);
-  // };
-
   const handleVehicleDelete = async (vehicleID) => {
     try {
       const res = await axios.delete(
@@ -232,36 +226,19 @@ export const Profile = () => {
           withCredentials: true,
         }
       );
-      console.log(res.data);
       setUserVehicles((prev) =>
         prev.filter((vehicle) => vehicle._id !== vehicleID)
       );
       toast.success("Vehicle Deleted Successfully");
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
-  // const setFuelType = (fuelType) => {
-  //   if (
-  //     fuelType === "Petrol" ||
-  //     fuelType === "Diesel" ||
-  //     fuelType === "CNG" ||
-  //     fuelType === "LPG"
-  //   ) {
-  //     return <FaGasPump className="text-[0.8rem]" />;
-  //   } else if (fuelType === "Electric") {
-  //     return <MdElectricBolt className="text-[0.8rem]" />;
-  //   } else if (fuelType === "Hybrid") {
-  //     return <MdElectricCar className="text-[0.8rem]" />;
-  //   } else {
-  //     return <PiEngineFill className="text-[0.8rem]" />;
-  //   }
-  // };
+
   return (
     <>
       <Container>
-        <form className="bg-transparent border-slate-900 hover:border-slate-800 border-[0.5px] transition ease-in-out duration-500 pt-12 pb-8 p-4 bg-white bg-opacity-5 rounded-lg">
+        <form className="bg-transparent mt-20 border-slate-900 hover:border-slate-800 border-[0.5px] transition ease-in-out duration-500 pt-12 pb-8 p-4 bg-white bg-opacity-5 rounded-lg">
           <input
             type="file"
             onChange={handleOnChange}

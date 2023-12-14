@@ -4,10 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import VehicleCard from "../../components/vehicle/VehicleCard";
 import { Loader } from "../../components/ui/Loader";
-import { set } from "mongoose";
 import { toast } from "react-toastify";
 import { RxCross2 } from "react-icons/rx";
 import { motion } from "framer-motion";
+
 const SearchVehicle = () => {
   const navigate = useNavigate();
   const [vehicleData, setVehicleData] = useState([]);
@@ -95,13 +95,9 @@ const SearchVehicle = () => {
           `http://localhost:3000/api/vehicle/get-vehicle?${searchQuery}`,
           { withCredentials: true }
         );
-        // console.log(res.data);
         setVehicleData(res.data);
-        // console.log("Vehicle Data");
-        // console.log(vehicleData);
         setLoading(false);
       } catch (error) {
-        // console.log(error);
         toast.error(error.response.data.message);
         setLoading(false);
       }
@@ -125,6 +121,7 @@ const SearchVehicle = () => {
       }));
     }
     if (e.target.id === "sort_order") {
+      console.log(e.target.value);
       const sort = e.target.value.split("_")[0] || "createdAt";
       const order = e.target.value.split("_")[1] || "desc";
       setFilterData((prev) => ({
@@ -220,7 +217,7 @@ const SearchVehicle = () => {
                       name="sort_order"
                       id="sort_order"
                       onChange={handleChange}
-                      value={filterData.sort}
+                      // value={filterData.sort}
                       className="bg-slate-800 rounded-md p-2 "
                     >
                       <option value="priceRegular_desc">
@@ -392,10 +389,6 @@ const SearchVehicle = () => {
                     </select>
                   </div>
                 </div>
-
-                {/* <div className="flex-col sm:flex">
-                
-                </div> */}
               </div>
               <div className=" justify-center hidden sm:flex">
                 <div className="h-[1px] m-2 mt-4 w-[48px]  bg-slate-700"></div>
@@ -454,7 +447,6 @@ const SearchVehicle = () => {
                       name="modelYearMax"
                       onChange={handleChange}
                       value={filterData.modelYearMax}
-                      // defaultValue={new Date().getFullYear()}
                       className="bg-transparent transition w-[6rem] sm:w-auto ease-linear duration-300 border-b-2 p-1 border-slate-700 hover:border-slate-500 outline-none focus:bg-slate-900 focus:border-slate-200"
                     />
                   </div>

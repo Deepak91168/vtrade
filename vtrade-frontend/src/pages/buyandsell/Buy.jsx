@@ -4,7 +4,6 @@ import VehicleCard from "../../components/vehicle/VehicleCard";
 import { Loader } from "../../components/ui/Loader";
 const Buy = () => {
   const [latestVehicles, setLatestVehicles] = useState([]);
-  // const [offersVehicles, setOffersVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchLatestVehicles = async () => {
