@@ -66,6 +66,7 @@ export const updateVehicle = async (req, res, next) => {
 export const getVehiclesByFilter = async (req, res, next) => {
   try {
     // Extracting query parameters or setting defaults
+    console.log(req.query);
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex) || 0;
 
@@ -76,7 +77,7 @@ export const getVehiclesByFilter = async (req, res, next) => {
     } else if (offer === "true") {
       offer = true;
     }
-    
+
     let ownerType = req.query.ownerType;
     if (ownerType === undefined || ownerType === "all") {
       ownerType = { $in: ["1st Owner", "2nd Owner", "3rd Owner"] };
@@ -128,13 +129,63 @@ export const getVehiclesByFilter = async (req, res, next) => {
     if (seats === undefined || seats === "all") {
       seats = { $gte: 0 };
     }
+
     //TODO: Price, Kms and Model Year filter
+    let priceMin = req.query.priceMin;
+    let priceMax = req.query.priceMax;
+
+    const priceFilter = {};
+
+    if (priceMin !== undefined && !isNaN(priceMin)) {
+      priceFilter.$gte = parseInt(priceMin);
+    }
+
+    if (priceMax !== undefined && !isNaN(priceMax)) {
+      priceFilter.$lte = parseInt(priceMax);
+    }
+
+    const priceQuery =
+      Object.keys(priceFilter).length > 0 ? { priceRegular: priceFilter } : {};
+
+    let kmsDrivenMin = req.query.kmsDrivenMin;
+    let kmsDrivenMax = req.query.kmsDrivenMax;
+
+    const kmsDrivenFilter = {};
+
+    if (kmsDrivenMin !== undefined && !isNaN(kmsDrivenMin)) {
+      kmsDrivenFilter.$gte = parseInt(kmsDrivenMin);
+    }
+
+    if (kmsDrivenMax !== undefined && !isNaN(kmsDrivenMax)) {
+      kmsDrivenFilter.$lte = parseInt(kmsDrivenMax);
+    }
+
+    const kmsDrivenQuery =
+      Object.keys(kmsDrivenFilter).length > 0
+        ? { kmsDriven: kmsDrivenFilter }
+        : {};
+
+    let modelYearMin = req.query.modelYearMin;
+    let modelYearMax = req.query.modelYearMax;
+
+    const modelYearFilter = {};
+
+    if (modelYearMin !== undefined && !isNaN(modelYearMin)) {
+      modelYearFilter.$gte = parseInt(modelYearMin);
+    }
+
+    if (modelYearMax !== undefined && !isNaN(modelYearMax)) {
+      modelYearFilter.$lte = parseInt(modelYearMax);
+    }
+
+    const modelYearQuery =
+      Object.keys(modelYearFilter).length > 0
+        ? { modelYear: modelYearFilter }
+        : {};
 
     const searchTerm = req.query.searchTerm || "";
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
-    console.log("SORT : ", sort);
-    console.log("SORT : ", order);
     const vehicles = await Vehicle.find({
       vehicleName: { $regex: searchTerm, $options: "i" },
       offer,
@@ -146,6 +197,9 @@ export const getVehiclesByFilter = async (req, res, next) => {
       bodyType,
       ownerType,
       seats,
+      ...priceQuery,
+      ...kmsDrivenQuery,
+      ...modelYearQuery,
     })
       .sort([[sort, order]])
       .limit(limit)

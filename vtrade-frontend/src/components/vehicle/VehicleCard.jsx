@@ -65,19 +65,16 @@ const VehicleCard = ({
   return (
     <div
       key={index}
-      className="m-2 sm:mt-2 w-full  md:w-[30%] lg:w-[20%]  transition ease-in-out duration-300"
+      className="m-2 sm:mt-2 w-full  md:w-[30%] lg:w-[20%] transition ease-in-out duration-300"
     >
       <div className="flex flex-col justify-center border-slate-800 rounded-md border-2 mt-2 mb-2 transition ease-in-out duration-300  hover:border-slate-600">
         <div className="">
           <img
-            // src={vehicle.imageURls[0]}
             src={imageURls[currentImage]}
             className=" object-cover w-full h-40 sm:h-48 cursor-pointer"
             alt="Vehicle image"
             onClick={() => navigate(`/vehicle/${vehicle._id}`)}
           />
-          {/* //TODO: [Feature] Show Color of Vehicle */}
-          {/* <FaCircle className="text-red-500 absolute top-0 right-0" /> */}
         </div>
         <div className="text-[0.6em] sm:text-[0.7em]">
           <div className="flex space-x-1 justify-between text-[0.7rem] sm:text-[0.8rem] font-extrabold p-4 bg-red-700">

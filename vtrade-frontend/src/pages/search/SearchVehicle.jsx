@@ -22,12 +22,12 @@ const SearchVehicle = () => {
     color: "",
     bodyType: "",
     offer: false,
-    // priceMin: 0,
-    // priceMax: "",
-    // modelYearMin: "",
-    // modelYearMax: new Date().getFullYear(),
-    // kmsDrivenMin: "",
-    // kmsDrivenMax: "",
+    priceMin: 0,
+    priceMax: "",
+    modelYearMin: 2000,
+    modelYearMax: new Date().getFullYear(),
+    kmsDrivenMin: 0,
+    kmsDrivenMax: "",
   });
 
   useEffect(() => {
@@ -138,7 +138,6 @@ const SearchVehicle = () => {
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted");
     const urlParams = new URLSearchParams();
     urlParams.set("searchTerm", filterData.searchTerm);
     urlParams.set("sort", filterData.sort);
@@ -157,7 +156,6 @@ const SearchVehicle = () => {
     urlParams.set("kmsDrivenMax", filterData.kmsDrivenMax);
     urlParams.set("order", filterData.order);
     const searchQuery = urlParams.toString();
-    console.log("Form Search Query " + searchQuery);
     navigate(`/search?${searchQuery}`);
   };
   return (
