@@ -24,7 +24,7 @@ app.use(
   cors({
     methods: "GET,POST,PATCH,DELETE,PUT,OPTIONS",
     optionsSuccessStatus: 200,
-    origin: "https://vtrade-k8vg.onrender.com/",
+    origin: "https://vtrade-k8vg.onrender.com",
     credentials: true,
   })
 );
