@@ -22,7 +22,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://vtrade-k8vg.onrender.com/",
+
     credentials: true,
   })
 );
