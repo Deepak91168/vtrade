@@ -161,7 +161,10 @@ export const Profile = () => {
       );
       const data = await response.data;
       dispatch(updateUserSuccess(data));
+      toast.success("Profile Updated Successfully");
+      setIsEditing(false);
     } catch (error) {
+      toast.error(error.message);
       dispatch(updateUserFailure(error.message));
     }
   };
@@ -171,13 +174,17 @@ export const Profile = () => {
     e.preventDefault();
     try {
       dispatch(deleteUserStart());
+      setIsEditing(false);
       await axios.delete(
         `http://localhost:3000/api/user/delete/${currentUser._id}`,
         { withCredentials: true }
       );
 
       dispatch(deleteUserSuccess());
+      toast.success("Account Deleted Successfully");
+      setIsEditing(false);
     } catch (error) {
+      toast.error(error.message);
       dispatch(deleteUserFailure(error.message));
     }
   };
@@ -191,6 +198,7 @@ export const Profile = () => {
       });
       dispatch(logoutSuccess());
     } catch (error) {
+      toast.error(error.message);
       dispatch(logoutFailure(error.message));
     }
   };
@@ -308,7 +316,7 @@ export const Profile = () => {
               </p>
             </div>
           </div>
-
+          {/* TODO:Fix profile update error */}
           <div className="">
             <div className="flex justify-center items-center mt-4">
               {!isEditing && (
@@ -323,7 +331,9 @@ export const Profile = () => {
           </div>
           <div>
             <div
-              className={`w-full text-white mt-6 ${!isEditing && "hidden"} `}
+              className={`w-full text-white mt-6 ${
+                !isEditing ? "hidden" : ""
+              } `}
             >
               <div className="mb-2">
                 <label htmlFor="" className="text-slate-400 text-[0.8rem] pl-4">
