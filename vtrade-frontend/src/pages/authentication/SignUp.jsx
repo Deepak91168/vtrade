@@ -41,10 +41,9 @@ export const SignUp = () => {
           },
         }
       );
-      const data = await response.data;
+
       setLoading(false);
       setError(null);
-      //Redirection to Login Page after successful Sign Up
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);

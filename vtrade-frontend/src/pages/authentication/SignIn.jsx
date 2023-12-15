@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { formInputClass } from "../../assets/styles/commonClasses";
@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { OAuth } from "../../components/auth/OAuth";
 import Container from "../../components/ui/Container";
 import Heading from "../../components/ui/Heading";
+import { toast } from "react-toastify";
 import {
   signInStart,
   signInSuccess,
@@ -26,12 +27,10 @@ export const SignIn = () => {
   //Handling for error and loading
   const { loading, error } = useSelector((state) => state.user);
 
-  //!Bug: Handle error in UI it is always been visible since first occurrence.
-
   //*Handling form Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //API Call Backend API URL: http://localhost:3000/api/auth/login [For login]
+    console.log("Daya kya huaa");
     try {
       dispatch(signInStart());
       const response = await axios.post(
@@ -46,9 +45,9 @@ export const SignIn = () => {
       );
       const data = await response.data;
       dispatch(signInSuccess(data));
-      //Redirection to Home Page after successful login
       navigate("/");
     } catch (error) {
+      toast.error(error.response.data.message);
       dispatch(signInFailure(error.response.data.message));
     }
   };
@@ -65,7 +64,7 @@ export const SignIn = () => {
       {/* --- Heading Ends --- */}
 
       {/* Form for Sign In/Log In */}
-      <form onSubmit={handleSubmit} className="text-white flex flex-col">
+      <form className="text-white flex flex-col">
         {/* ### Input Section ###*/}
         <input
           id="email"
@@ -99,20 +98,20 @@ export const SignIn = () => {
           {!loading ? (
             <div className="p-2">
               <button
+                type="submit"
+                onClick={handleSubmit}
                 className={`transition ease-in-out duration-300 mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600`}
               >
                 Log In
               </button>
               <p className="cursor-default text-center text-[10px] text-slate-400 mt-2">
-                {" "}
-                or{" "}
+                or
               </p>
               <OAuth />
             </div>
           ) : (
             <Loader />
           )}
-          {/* --- Conditional Rendering for Loader Ends --- */}
         </div>
       </form>
     </Container>

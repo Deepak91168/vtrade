@@ -14,7 +14,6 @@ const Buy = () => {
         `http://localhost:3000/api/vehicle/get-vehicle`,
         { withCredentials: true }
       );
-      console.log(res.data);
       if (res.data.length > 9) {
         setShowMore(true);
       }
