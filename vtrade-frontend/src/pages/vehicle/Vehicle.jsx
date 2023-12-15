@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ImageSlider from "../../components/vehicle/ImageSlider";
@@ -67,13 +67,13 @@ const Vehicle = () => {
       }
     };
     fetchVehicle();
-  }, []);
+  }, [params.vehicleID]);
   return (
     <>
       {vehicle && !loading ? (
         <div className="mt-32">
           <div className="flex flex-col sm:flex-row justify-center items-start w-full">
-            <div className=" w-full sm:w-[50%] md:w-[30%] p-4 sm:p-2">
+            <div className="w-full sm:max-w-md md:max-w-lg p-4 sm:p-2">
               {<ImageSlider images={vehicle.imageURls} />}
             </div>
 
@@ -130,7 +130,7 @@ const Vehicle = () => {
               </div>
               <div>
                 <div className="flex relative justify-end items-baseline border-slate-600 border-[0.5px] border-r-0 border-l-0 pl-2 pr-2 pt-2 pb-2">
-                  <p className="text-white absolute top-[1/2] pl-2 left-0 text-[0.8rem]">
+                  <p className="text-white absolute top-[1/2] pl-2 left-0 text-[0.7rem] sm:text-[0.8rem]">
                     Price
                   </p>
                   {vehicle.offer ? (
@@ -163,8 +163,8 @@ const Vehicle = () => {
               </div>
             </div>
           </div>
-          <div className="text-white mt-4 flex justify-start mx-auto max-w-xl lg:max-w-4xl pb-[64px] ">
-            <div className="">
+          <div className="text-white mt-4 flex justify-start mx-auto md:max-w-3xl  pb-[64px] ">
+            <div className="w-full">
               <p className="pl-4 font-bold text-slate-400">Description</p>
               <p className="text-[0.7rem] sm:text-sm p-4 text-slate-200">
                 {vehicle.description}
@@ -178,10 +178,10 @@ const Vehicle = () => {
                   Log In to contact Owner
                 </p>
               ) : (
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center  mb-4">
                   <button
                     onClick={() => setContactOwner((prev) => !prev)}
-                    className={`mt-4 text-center transition ease-in-out ${
+                    className={` text-center transition ease-in-out ${
                       !contactOwner
                         ? "bg-slate-800 text-white"
                         : "bg-transparent border-none text-red-500"
@@ -194,7 +194,7 @@ const Vehicle = () => {
               {contactOwner &&
                 currentUser &&
                 currentUser._id === vehicle.userRef && (
-                  <p className="text-[0.7rem] cursor-pointer mx-auto w-full text-slate-400 text-center mt-4">
+                  <p className="text-[0.7rem] cursor-pointer mx-auto w-full text-slate-400 text-center">
                     You are the owner of this vehicle
                   </p>
                 )}

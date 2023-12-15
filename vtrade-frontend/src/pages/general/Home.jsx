@@ -26,8 +26,6 @@ export const Home = () => {
       setModelNotification(false);
     }, 12000);
   };
-  const Letters = ["V", "T", "R", "A", "D", "E"];
-  // Vehicle Transactions, Replacements, and Deals for Everyone
   return (
     <div className="relative">
       <div className="absolute w-full text-white z-10">
@@ -54,10 +52,10 @@ export const Home = () => {
               </p>
               <div className="">
                 <MovingComponent
-                  type="blur"
+                  type="fadeIn"
                   duration="1800ms"
                   delay="0s"
-                  direction="reverse"
+                  direction="normal"
                   timing="ease-in"
                   iteration="1"
                   fillMode="forwards"

@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 const SearchVehicle = () => {
   const navigate = useNavigate();
   const [vehicleData, setVehicleData] = useState([]);
+  const [showMore, setShowMore] = useState(false);
   const [loading, setLoading] = useState(true);
   const [filterActivated, setFilterActivated] = useState(false);
   const [filterData, setFilterData] = useState({
@@ -96,6 +97,9 @@ const SearchVehicle = () => {
           { withCredentials: true }
         );
         setVehicleData(res.data);
+        if (res.data.length > 9) {
+          setShowMore(true);
+        }
         setLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -159,6 +163,30 @@ const SearchVehicle = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
+
+  const handleShowMore = async () => {
+    const currentNumberOfVehicles = vehicleData.length;
+    const startIndex = currentNumberOfVehicles;
+    const limit = 6;
+    try {
+      const urlParams = new URLSearchParams(location.search);
+      urlParams.set("startIndex", startIndex);
+      urlParams.set("limit", limit);
+      const searchQuery = urlParams.toString();
+      console.log(searchQuery);
+      const res = await axios.get(
+        `http://localhost:3000/api/vehicle/get-vehicle?${searchQuery}`,
+        { withCredentials: true }
+      );
+      setVehicleData([...vehicleData, ...res.data]);
+      if (res.data.length < limit) {
+        setShowMore(false);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div className="flex justify-center relative mt-24">
       <div className="flex flex-col md:flex-row">
@@ -506,22 +534,32 @@ const SearchVehicle = () => {
             </div>
           </div>
           {!loading ? (
-            <div className="w-full flex flex-wrap justify-center items-center gap-2 mt-2">
-              {vehicleData.length > 0 ? (
-                vehicleData.map((vehicle) => (
-                  <VehicleCard
-                    key={vehicle._id}
-                    vehicle={vehicle}
-                    edit={false}
-                    contactBtn={false}
-                  />
-                ))
-              ) : (
-                <div className=" text-center p-4 pl-2 text-red-600 font-bold">
-                  No vehicles found
+            <>
+              <div className="w-full flex flex-wrap justify-center items-center gap-2 mt-2">
+                {vehicleData.length > 0 ? (
+                  vehicleData.map((vehicle) => (
+                    <VehicleCard
+                      key={vehicle._id}
+                      vehicle={vehicle}
+                      edit={false}
+                      contactBtn={false}
+                    />
+                  ))
+                ) : (
+                  <div className=" text-center p-4 pl-2 text-red-600 font-bold">
+                    No vehicles found
+                  </div>
+                )}
+              </div>
+              {showMore && (
+                <div
+                  onClick={handleShowMore}
+                  className="cursor-pointer text-slate-400 text-[0.8rem] font-semibold mb-[100px] text-center"
+                >
+                  Show More
                 </div>
               )}
-            </div>
+            </>
           ) : (
             <div className="mx-auto ">
               <Loader />

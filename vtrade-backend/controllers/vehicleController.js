@@ -65,9 +65,7 @@ export const updateVehicle = async (req, res, next) => {
 
 export const getVehiclesByFilter = async (req, res, next) => {
   try {
-    // Extracting query parameters or setting defaults
-    console.log(req.query);
-    const limit = parseInt(req.query.limit) || 9;
+    const limit = parseInt(req.query.limit);
     const startIndex = parseInt(req.query.startIndex) || 0;
 
     // Filtering parameters

@@ -67,7 +67,6 @@ export const deleteUser = async (req, res, next) => {
 //* Get User Listed Vehicles
 export const getUserListedVehicles = async (req, res, next) => {
   const userId = req.params.id;
-  // console.log(req.params.id);
   if (req.user.id !== userId) {
     return next(
       customError(401, "You are not authorized to view this user's vehicles")

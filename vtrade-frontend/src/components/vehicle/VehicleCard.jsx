@@ -1,16 +1,12 @@
-import { FaGasPump, FaTrash } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
+import { FaGasPump, FaTrash, FaEdit } from "react-icons/fa";
 import { PiEngineFill } from "react-icons/pi";
-import { FaCircle } from "react-icons/fa";
-import { MdElectricBolt } from "react-icons/md";
-import { MdElectricCar } from "react-icons/md";
+import { MdElectricBolt, MdElectricCar } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { IoCall } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { BiSolidOffer } from "react-icons/bi";
 import { GiCarSeat } from "react-icons/gi";
-import { TbAutomaticGearbox } from "react-icons/tb";
-import { TbManualGearbox } from "react-icons/tb";
+import { TbAutomaticGearbox, TbManualGearbox } from "react-icons/tb";
 import { FaRoad } from "react-icons/fa6";
 
 const calculatePercentageOffer = (priceRegular, priceDiscounted) => {
@@ -65,7 +61,7 @@ const VehicleCard = ({
   return (
     <div
       key={index}
-      className="m-2 sm:mt-2 w-full  md:w-[30%] lg:w-[20%] transition ease-in-out duration-300"
+      className="m-2 sm:mt-2 max-w-md transition ease-in-out duration-300"
     >
       <div className="flex flex-col justify-center border-slate-800 rounded-md border-2 mt-2 mb-2 transition ease-in-out duration-300  hover:border-slate-600">
         <div className="">

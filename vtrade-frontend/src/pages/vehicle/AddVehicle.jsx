@@ -17,7 +17,6 @@ import { useSelector } from "react-redux";
 import { Loader } from "../../components/ui/Loader";
 import { useNavigate } from "react-router-dom";
 
-
 const AddVehicle = () => {
   const currentUser = useSelector((state) => state.user);
   const ownerType = ["1st Owner", "2nd Owner", "3rd Owner"];
@@ -59,7 +58,6 @@ const AddVehicle = () => {
     setSelectedColor(VehicleColorMap[colorName]);
   };
 
-  
   useEffect(() => {
     setFormData({
       ...formData,
