@@ -98,6 +98,7 @@ const SearchVehicle = () => {
         setVehicleData(res.data);
         setLoading(false);
       } catch (error) {
+        console.log(error.response);
         toast.error(error.response.data.message);
         setLoading(false);
       }
@@ -414,6 +415,7 @@ const SearchVehicle = () => {
                       type="text"
                       placeholder="max"
                       id="priceMax"
+                      value={filterData.priceMax}
                       name="priceMax"
                       onChange={handleChange}
                       className="bg-transparent transition w-[6rem] sm:w-auto ease-linear duration-300 border-b-2 p-1 border-slate-700 hover:border-slate-500 outline-none focus:bg-slate-900 focus:border-slate-200"

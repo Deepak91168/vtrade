@@ -131,8 +131,8 @@ export const getVehiclesByFilter = async (req, res, next) => {
     }
 
     //TODO: Price, Kms and Model Year filter
-    let priceMin = req.query.priceMin;
-    let priceMax = req.query.priceMax;
+    let priceMin = req.query.priceMin === "" ? undefined : req.query.priceMin;
+    let priceMax = req.query.priceMax === "" ? undefined : req.query.priceMax;
 
     const priceFilter = {};
 
@@ -147,8 +147,10 @@ export const getVehiclesByFilter = async (req, res, next) => {
     const priceQuery =
       Object.keys(priceFilter).length > 0 ? { priceRegular: priceFilter } : {};
 
-    let kmsDrivenMin = req.query.kmsDrivenMin;
-    let kmsDrivenMax = req.query.kmsDrivenMax;
+    let kmsDrivenMin =
+      req.query.kmsDrivenMin === "" ? undefined : req.query.kmsDrivenMin;
+    let kmsDrivenMax =
+      req.query.kmsDrivenMax === "" ? undefined : req.query.kmsDrivenMin;
 
     const kmsDrivenFilter = {};
 
@@ -165,8 +167,10 @@ export const getVehiclesByFilter = async (req, res, next) => {
         ? { kmsDriven: kmsDrivenFilter }
         : {};
 
-    let modelYearMin = req.query.modelYearMin;
-    let modelYearMax = req.query.modelYearMax;
+    let modelYearMin =
+      req.query.modelYearMin === "" ? undefined : req.query.modelYearMin;
+    let modelYearMax =
+      req.query.modelYearMax === "" ? undefined : req.query.modelYearMax;
 
     const modelYearFilter = {};
 
