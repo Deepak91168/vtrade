@@ -14,9 +14,8 @@ dotenv.config();
 
 connectDB();
 
-const app = express();
-
 const __dirname = path.resolve();
+const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -32,7 +31,7 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/vehicle", vehicleRouter);
 
-app.use(express.static(path.join(__dirname, "/vtrade-frontend/build")));
+app.use(express.static(path.join(__dirname, "/vtrade-frontend/dist"))); //? Vite -> dist folder
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "vtrade-frontend", "dist", "index.html"));
 });

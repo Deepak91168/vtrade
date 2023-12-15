@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon vtrade-backend/index.js",
-    "start": "node vtrade-backend/index.js"
+    "start": "node vtrade-backend/index.js",
+    "build": "npm install && npm install --prefix vtrade-frontend && npm run build --prefix vtrade-frontend"
   },
   "keywords": [],
   "author": "",

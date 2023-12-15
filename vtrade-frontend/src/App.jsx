@@ -17,12 +17,11 @@ import Vehicle from "./pages/vehicle/Vehicle";
 import Buy from "./pages/buyandsell/Buy";
 import Sell from "./pages/buyandsell/Sell";
 import Footer from "./components/common/Footer";
+import Custom404 from "./pages/general/Custom404";
 function App() {
-  // const notify = () => toast("Wow so easy!");
   return (
     <>
       <BrowserRouter>
-        {/* <button onClick={notify}>BTN</button> */}
         <Layout>
           <Header />
           <Routes>
@@ -44,12 +43,12 @@ function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sell" element={<Sell />} />
+            <Route path="*" element={<Custom404 />} />
           </Routes>
           <Footer />
         </Layout>
       </BrowserRouter>
       <ToastContainer
-        // className="fixed top-0 right-0 z-50"
         position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -65,5 +64,3 @@ function App() {
   );
 }
 export default App;
-
-//TODO: Global loader to be added
