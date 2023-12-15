@@ -16,11 +16,7 @@ export const getUserByID = async (req, res) => {
 
 //* Update User Account
 export const updateUser = async (req, res, next) => {
-  console.log("Updating User controller");
-  console.log("User ID B", req.user.id);
-  console.log("User ID B", req.params.id);
   if (req.user.id !== req.params.id) {
-    console.log("Problem Here!");
     return next(customError(401, "You are not authorized to update this user"));
   }
   try {

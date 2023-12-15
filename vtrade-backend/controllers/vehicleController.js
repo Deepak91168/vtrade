@@ -13,7 +13,6 @@ export const getVehicles = async (req, res, next) => {
 };
 export const createVehicle = async (req, res, next) => {
   try {
-    console.log("From Vehicle Controller");
     const vehicle = await Vehicle.create(req.body);
     res.status(201).json(vehicle);
   } catch (error) {
@@ -21,7 +20,6 @@ export const createVehicle = async (req, res, next) => {
   }
 };
 export const deleteVehicle = async (req, res, next) => {
-  console.log("VID : ", req.params.id);
   try {
     const vehicle = await Vehicle.findById(req.params.id);
     if (vehicle) {
@@ -32,7 +30,6 @@ export const deleteVehicle = async (req, res, next) => {
       res.status(200).json({ message: "Vehicle deleted" });
     } else {
       return next(customError(404, "Vehicle not found"));
-      console.log(req.body);
     }
   } catch (error) {
     next(error);

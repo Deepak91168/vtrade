@@ -8,10 +8,16 @@ import errorHandler from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
+import path from "path";
+
 dotenv.config();
 
 connectDB();
+
 const app = express();
+
+const __dirname = path.resolve();
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -25,6 +31,12 @@ app.use(
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/vehicle", vehicleRouter);
+
+app.use(express.static(path.join(__dirname, "/vtrade-frontend/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "vtrade-frontend", "dist", "index.html"));
+});
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;

@@ -58,9 +58,6 @@ export const login = async (req, res, next) => {
       })
       .status(200)
       .json(mainUser);
-
-    console.log("Logged In Successful");
-    console.log(mainUser);
   } catch (error) {
     next(error);
   }
