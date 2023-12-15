@@ -8,7 +8,7 @@ import { BiSolidOffer } from "react-icons/bi";
 import { GiCarSeat } from "react-icons/gi";
 import { TbAutomaticGearbox, TbManualGearbox } from "react-icons/tb";
 import { FaRoad } from "react-icons/fa6";
-
+import { motion } from "framer-motion";
 const calculatePercentageOffer = (priceRegular, priceDiscounted) => {
   const percentage = ((priceRegular - priceDiscounted) / priceRegular) * 100;
   return Math.round(percentage);
@@ -59,9 +59,10 @@ const VehicleCard = ({
   }, [imageURls.length]);
 
   return (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.03 }}
       key={index}
-      className="m-2 sm:mt-2 max-w-md transition ease-in-out duration-300"
+      className="m-2 sm:mt-2 max-w-md transition ease-in-out duration-300 "
     >
       <div className="flex flex-col justify-center border-slate-800 rounded-md border-2 mt-2 mb-2 transition ease-in-out duration-300  hover:border-slate-600">
         <div className="">
@@ -114,9 +115,9 @@ const VehicleCard = ({
             )}
 
             <div className={!vehicle.offer && `hidden`}>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center pt-2 pb-2 p-4 bg-slate-600 rounded-md">
                 <BiSolidOffer className="text-lg" />
-                <span className="pl-2">
+                <span className="pl-1  ">
                   {vehicle.offer &&
                     calculatePercentageOffer(
                       vehicle.priceRegular,
@@ -156,7 +157,7 @@ const VehicleCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

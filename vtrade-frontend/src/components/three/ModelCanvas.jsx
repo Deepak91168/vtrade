@@ -1,8 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { MainModel } from "./MainModel";
-import Text from "./Text";
-
 import "../../assets/styles/canvas.css";
 export const ModelCanvas = () => {
   return (

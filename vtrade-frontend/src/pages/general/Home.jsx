@@ -79,6 +79,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
+
       <ModelCanvas />
     </div>
   );

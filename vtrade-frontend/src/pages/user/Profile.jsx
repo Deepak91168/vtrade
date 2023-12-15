@@ -26,13 +26,7 @@ import {
   logoutSuccess,
   logoutFailure,
 } from "../../redux/user/userSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { FaGasPump, FaTrash } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
-import { PiEngineFill } from "react-icons/pi";
-import { FaCircle } from "react-icons/fa";
-import { MdElectricBolt } from "react-icons/md";
-import { MdElectricCar } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import VehicleCard from "../../components/vehicle/VehicleCard";
 
 export const Profile = () => {
@@ -174,7 +168,6 @@ export const Profile = () => {
 
   //Delete Account
   const handleAccountDelete = async (e) => {
-    console.log("delete");
     e.preventDefault();
     try {
       dispatch(deleteUserStart());
@@ -415,7 +408,7 @@ export const Profile = () => {
         </div>
       </Container>
       {showListing && (
-        <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 pb-[64px]">
+        <div className=" text-white w-full flex flex-wrap justify-center items-center gap-2 pb-[64px] px-10">
           {userVehicles &&
             userVehicles.length > 0 &&
             userVehicles.map((vehicle, index) => (
