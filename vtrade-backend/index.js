@@ -23,10 +23,9 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "https://vtrade-k8vg.onrender.com/",
-
-    credentials: true,
   })
 );
+app.options("*", cors());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
