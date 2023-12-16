@@ -603,7 +603,7 @@ const AddVehicle = () => {
                 Upload Image
               </h2>
               <div className="justify-start items-center">
-                <div className="flex flex-col sm:flex-row justify-center items-center space-x-8">
+                <div className="flex flex-col sm:flex-row justify-center items-center">
                   <div className="text-white">
                     <input
                       onChange={handleFileChange}
@@ -613,7 +613,7 @@ const AddVehicle = () => {
                       allow="image/*"
                     />
                   </div>
-                  <div className="mt-4 sm:mt-0">
+                  <div className="mt-4 sm:mt-0 flex justify-center w-full sm:w-auto sm:ml-4 ">
                     <button
                       type="button"
                       disabled={uploading}

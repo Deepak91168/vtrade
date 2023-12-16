@@ -52,77 +52,79 @@ export const SignUp = () => {
   };
 
   return (
-    <Container>
-      {/* ### Heading ###*/}
-      <Heading title={"Sign Up"} />
-      {/* --- Heading Ends --- */}
+    <div className="mt-32">
+      <Container>
+        {/* ### Heading ###*/}
+        <Heading title={"Sign Up"} />
+        {/* --- Heading Ends --- */}
 
-      {/* Form for Sign Up */}
-      <form onSubmit={handleSubmit} className="text-white flex flex-col">
-        {/* ### Input Section ###*/}
-        <input
-          id="name"
-          onChange={onChangeHandler}
-          className={formInputClass}
-          type="text"
-          placeholder="Name"
-        />
-        <input
-          id="username"
-          onChange={onChangeHandler}
-          className={formInputClass}
-          type="text"
-          placeholder="Username"
-        />
-        <input
-          id="email"
-          onChange={onChangeHandler}
-          className={formInputClass}
-          placeholder="Email"
-          type="email"
-        />
-        <input
-          id="password"
-          onChange={onChangeHandler}
-          className={formInputClass}
-          placeholder="Password"
-          type="password"
-        />
-        {/* --- Input Section Ends --- */}
+        {/* Form for Sign Up */}
+        <form onSubmit={handleSubmit} className="text-white flex flex-col">
+          {/* ### Input Section ###*/}
+          <input
+            id="name"
+            onChange={onChangeHandler}
+            className={formInputClass}
+            type="text"
+            placeholder="Name"
+          />
+          <input
+            id="username"
+            onChange={onChangeHandler}
+            className={formInputClass}
+            type="text"
+            placeholder="Username"
+          />
+          <input
+            id="email"
+            onChange={onChangeHandler}
+            className={formInputClass}
+            placeholder="Email"
+            type="email"
+          />
+          <input
+            id="password"
+            onChange={onChangeHandler}
+            className={formInputClass}
+            placeholder="Password"
+            type="password"
+          />
+          {/* --- Input Section Ends --- */}
 
-        <div>
-          {/* ### Do not have an account and error ### */}
-          <div className="flex justify-between">
-            <h1 className="transition ease-in-out duration-300 text-[0.7rem] text-slate-300 mt-2 hover:text-white cursor-pointer p-2">
-              <Link to="/sign-in">Already have an account?</Link>
-            </h1>
-            <h1 className="text-[0.7rem] text-red-500 mt-2 ">
-              {error ? `Try Again!  *${error}` : null}
-            </h1>
-          </div>
-          {/* --- Do not have an account and error Ends --- */}
-
-          {/* Conditional Rendering for Loader */}
-          {!loading ? (
-            <div className="p-2">
-              <button
-                disabled={loading}
-                className={`transition ease-in-out duration-300 text-center mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600`}
-              >
-                Sign Up
-              </button>
-              <p className="cursor-default text-center text-[10px] text-slate-400 mt-2">
-                {" "}
-                or{" "}
-              </p>
-              <OAuth />
+          <div>
+            {/* ### Do not have an account and error ### */}
+            <div className="flex justify-between">
+              <h1 className="transition ease-in-out duration-300 text-[0.7rem] text-slate-300 mt-2 hover:text-white cursor-pointer p-2">
+                <Link to="/sign-in">Already have an account?</Link>
+              </h1>
+              <h1 className="text-[0.7rem] text-red-500 mt-2 ">
+                {error ? `Try Again!  *${error}` : null}
+              </h1>
             </div>
-          ) : (
-            <Loader />
-          )}
-          {/* --- Conditional Rendering for Loader Ends --- */}
-        </div>
-      </form>
-    </Container>
+            {/* --- Do not have an account and error Ends --- */}
+
+            {/* Conditional Rendering for Loader */}
+            {!loading ? (
+              <div className="p-2">
+                <button
+                  disabled={loading}
+                  className={`transition ease-in-out duration-300 text-center mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600`}
+                >
+                  Sign Up
+                </button>
+                <p className="cursor-default text-center text-[10px] text-slate-400 mt-2">
+                  {" "}
+                  or{" "}
+                </p>
+                <OAuth />
+              </div>
+            ) : (
+              <Loader />
+            )}
+            {/* --- Conditional Rendering for Loader Ends --- */}
+          </div>
+        </form>
+      </Container>
+    </div>
   );
 };

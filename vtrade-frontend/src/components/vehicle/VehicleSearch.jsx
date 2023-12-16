@@ -22,7 +22,7 @@ const VehicleSearch = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="pl-2 pt-1 w-[50%] sm:w-1/3 rounded-lg flex items-center justify-around relative"
+      className="w-[60%] sm:w-[40%] rounded-lg flex items-center justify-around relative "
     >
       <input
         onChange={(e) => setSearchTerm(e.target.value)}

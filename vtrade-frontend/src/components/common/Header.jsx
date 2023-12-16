@@ -80,9 +80,9 @@ export const Header = () => {
 
         <h1 className="flex">
           <Link to="/">
-            <div className="flex justify-center items-center ml-4 px-2 rounded-md transition ease-in-out duration-300">
-              <img src={logo} alt="" className="h-8 " />
-              <span className="text-slate-400 pl-2 text-sm font-bold">
+            <div className="flex justify-center pl-4 items-center rounded-md transition ease-in-out duration-300">
+              <img src={logo} alt="" className="h-6 sm:h-8 " />
+              <span className="text-slate-400 pl-2 text-[0.8rem] sm:text-sm font-bold">
                 VTRADE
               </span>
             </div>

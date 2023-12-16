@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+
 import {
   getStorage,
   ref,
@@ -77,7 +78,7 @@ export const Profile = () => {
         setUploadProgress(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
-            console.log("Upload is paused");
+            // console.log("Upload is paused");
             break;
           case "running":
             // console.log("Upload is running");
@@ -89,7 +90,7 @@ export const Profile = () => {
       (error) => {
         // Handle unsuccessful uploads
         setUploadError(true);
-        console.log(error);
+        toast.error(error.message);
       },
       () => {
         // Handle successful uploads on complete
@@ -99,7 +100,7 @@ export const Profile = () => {
             setProfileData({ ...profileData, avatar: downloadURL });
           })
           .catch((error) => {
-            console.log(error);
+            toast.error("Internal Server Error!");
           });
       }
     );
@@ -386,14 +387,14 @@ export const Profile = () => {
                 <button
                   type="submit"
                   onClick={handleProfileUpdate}
-                  className={`rounded-lg transition ease-in-out duration-500 mt-2 font-thin border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 `}
+                  className={`rounded-lg transition ease-in-out duration-500 mt-2 border-slate-800 bg-slate-800 hover:bg-transparent text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600 `}
                 >
                   Update
                 </button>
                 <button
                   type="button"
                   onClick={handleAccountDelete}
-                  className={`rounded-lg transition ease-in-out duration-500 mt-2 border-slate-800 text-red-500 w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-red-700 hover:border-[0.5px] `}
+                  className={`rounded-lg transition ease-in-out duration-500 mt-2 border-slate-800 bg-red-700 hover:bg-transparent text-white  w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-red-700 hover:border-[2px] `}
                 >
                   Delete Account
                 </button>

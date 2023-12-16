@@ -117,14 +117,7 @@ const VehicleCard = ({
                 </span>
               </div>
             </div>
-            {contactBtn && (
-              <div className="flex justify-between items-center space-x-1">
-                <div className="flex items-center">
-                  <IoCall className="text-[0.8rem]" />
-                  <span className="pl-1">{vehicle.ownerContact}</span>
-                </div>
-              </div>
-            )}
+
             <div className="">{vehicle.ownerType}</div>
 
             <div>
@@ -135,9 +128,20 @@ const VehicleCard = ({
                 Details
               </button>
             </div>
-            {edit && (
+          </div>
+          {edit && (
+            <div className="text-white flex justify-between px-4 p-2 bg-slate-900">
+              {contactBtn && (
+                <div className="flex justify-between items-center ">
+                  <div className="flex items-center">
+                    <IoCall className="text-[0.8rem]" />
+                    <span className="pl-1">{vehicle.ownerContact}</span>
+                  </div>
+                </div>
+              )}
+
               <div className="">
-                <div className="flex justify-end z-10 space-x-2 w-full bg-slate-600 rounded-md p-1 sm:p-2 ">
+                <div className="flex justify-end z-10 space-x-2 w-full bg-slate-600 rounded-md p-2  ">
                   <button
                     onClick={() => handleVehicleDelete(vehicle._id)}
                     className=""
@@ -152,8 +156,8 @@ const VehicleCard = ({
                   </button>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
