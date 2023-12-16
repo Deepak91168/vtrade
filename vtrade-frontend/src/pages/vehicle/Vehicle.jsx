@@ -69,7 +69,7 @@ const Vehicle = () => {
     fetchVehicle();
   }, [params.vehicleID]);
   return (
-    <>
+    <div className="mb-[64px]">
       {vehicle && !loading ? (
         <div className="mt-32">
           <div className="flex flex-col sm:flex-row justify-center items-start w-full">
@@ -209,7 +209,7 @@ const Vehicle = () => {
       ) : (
         <div className="text-white">Loading...</div>
       )}
-    </>
+    </div>
   );
 };
 
