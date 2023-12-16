@@ -35,7 +35,7 @@ export const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(userData);
+      // console.log(userData);
       dispatch(signInStart());
       const response = await axios.post(
         "http://localhost:3000/api/auth/login",
@@ -48,7 +48,7 @@ export const SignIn = () => {
         }
       );
       const data = await response.data;
-      console.log(data);
+      // console.log(data);
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {

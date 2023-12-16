@@ -698,7 +698,7 @@ const EditVehicleDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-[80px]">
               {loading ? (
                 <Loader className={` mt-0 items-start mb-4`} />
               ) : (
