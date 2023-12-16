@@ -150,7 +150,7 @@ export const Profile = () => {
       dispatch(updateUserStart());
       console.log("User ID: ", currentUser._id);
       const response = await axios.post(
-        `http://localhost:3000/api/user/update/${currentUser._id}`,
+        `/api/user/update/${currentUser._id}`,
         JSON.stringify(profileData),
         {
           headers: {
@@ -175,10 +175,9 @@ export const Profile = () => {
     try {
       dispatch(deleteUserStart());
       setIsEditing(false);
-      await axios.delete(
-        `http://localhost:3000/api/user/delete/${currentUser._id}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`/api/user/delete/${currentUser._id}`, {
+        withCredentials: true,
+      });
 
       dispatch(deleteUserSuccess());
       toast.success("Account Deleted Successfully");
@@ -193,7 +192,7 @@ export const Profile = () => {
   const handleLogOut = async () => {
     try {
       dispatch(logoutStart());
-      await axios.get("http://localhost:3000/api/auth/logout", {
+      await axios.get("/api/auth/logout", {
         withCredentials: true,
       });
       dispatch(logoutSuccess());
@@ -207,12 +206,9 @@ export const Profile = () => {
   const handleShowVehicleListings = async () => {
     setShowListing((prev) => !prev);
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/user/vehicle/${currentUser._id}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`/api/user/vehicle/${currentUser._id}`, {
+        withCredentials: true,
+      });
       setUserVehicles(res.data);
     } catch (error) {
       toast.error(error.message);
@@ -221,12 +217,9 @@ export const Profile = () => {
 
   const handleVehicleDelete = async (vehicleID) => {
     try {
-      const res = await axios.delete(
-        `http://localhost:3000/api/vehicle/delete/${vehicleID}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.delete(`/api/vehicle/delete/${vehicleID}`, {
+        withCredentials: true,
+      });
       setUserVehicles((prev) =>
         prev.filter((vehicle) => vehicle._id !== vehicleID)
       );

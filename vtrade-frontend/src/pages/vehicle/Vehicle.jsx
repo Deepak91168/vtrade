@@ -57,7 +57,7 @@ const Vehicle = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          `http://localhost:3000/api/vehicle/get-vehicle/${params.vehicleID}`
+          `/api/vehicle/get-vehicle/${params.vehicleID}`
         );
         setVehicle(res.data);
         setLoading(false);

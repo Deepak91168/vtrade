@@ -8,7 +8,7 @@ import degreesToRadians from "../../utils/functions.jsx";
 import { floorTexture } from "../../utils/texture_floor.jsx";
 import { Model } from "../../assets/models/Model.jsx";
 import { useTexture } from "@react-three/drei";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 
 export const MainModel = () => {

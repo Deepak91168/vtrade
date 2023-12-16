@@ -6,7 +6,6 @@ import VehicleColorMap from "../../utils/ColorMap";
 import { getDownloadURL, getStorage } from "firebase/storage";
 import { app } from "../../firebase";
 import { ref, uploadBytesResumable } from "firebase/storage";
-import { getRandomFileName, getRandomValue } from "../../utils/RandomName";
 import ImagePreview from "../../components/form/ImagePreview";
 import Uploader from "../../components/form/Uploader";
 import ImagePreviewModal from "../../components/ui/ImagePreviewModal";
@@ -209,7 +208,7 @@ const AddVehicle = () => {
 
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/vehicle/create",
+        "/api/vehicle/create",
         {
           ...formData,
           userRef: currentUser.currentUser._id,

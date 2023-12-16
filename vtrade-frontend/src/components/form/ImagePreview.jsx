@@ -1,4 +1,3 @@
-import React from "react";
 import { RxCross2 } from "react-icons/rx";
 import { motion } from "framer-motion";
 const ImagePreview = ({ url, index, RemovePreview, galleryView }) => {

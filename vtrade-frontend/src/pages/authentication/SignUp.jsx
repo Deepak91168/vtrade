@@ -33,7 +33,7 @@ export const SignUp = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        "/api/auth/signup",
         JSON.stringify(userData),
         {
           headers: {
@@ -41,7 +41,7 @@ export const SignUp = () => {
           },
         }
       );
-
+      console.log(response.data);
       setLoading(false);
       setError(null);
       navigate("/sign-in");

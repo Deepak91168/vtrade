@@ -14,7 +14,7 @@ const ContactOwner = ({ vehicle }) => {
     const getOwner = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/user/${vehicle.userRef}`,
+          `/api/user/${vehicle.userRef}`,
           { withCredentials: true } //? Never Forget this
         );
         setOwner(res.data);

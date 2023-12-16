@@ -10,10 +10,9 @@ const Buy = () => {
   useEffect(() => {
     const fetchLatestVehicles = async () => {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:3000/api/vehicle/get-vehicle`,
-        { withCredentials: true }
-      );
+      const res = await axios.get(`/api/vehicle/get-vehicle`, {
+        withCredentials: true,
+      });
       if (res.data.length > 9) {
         setShowMore(true);
       }
@@ -35,8 +34,7 @@ const Buy = () => {
     const limit = 6;
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/vehicle/get-vehicle?startIndex=${startIndex}&limit=${limit}`,
-        { withCredentials: true }
+        `/api/vehicle/get-vehicle?startIndex=${startIndex}&limit=${limit}`
       );
       setLatestVehicles([...latestVehicles, ...res.data]);
       if (res.data.length < limit) {

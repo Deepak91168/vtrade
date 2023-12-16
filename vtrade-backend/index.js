@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
@@ -20,16 +19,20 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    methods: "GET,POST,PATCH,DELETE,PUT,OPTIONS",
-    optionsSuccessStatus: 200,
-    origin: ["https://vtrade-k8vg.onrender.com", "http://localhost:5173"],
-    // origin: "https://vtrade-k8vg.onrender.com",
-    credentials: true,
-  })
+// app.use(
+//   cors({
+//     methods: "GET,POST,PATCH,DELETE,PUT,OPTIONS",
+//     optionsSuccessStatus: 200,
+//     origin: ["https://vtrade-k8vg.onrender.com", "http://localhost:5173"],
+//     credentials: true,
+//   })
+// );
+// app.options("*", cors());
+
+const PORT = 3000;
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
 );
-app.options("*", cors());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
@@ -41,8 +44,3 @@ app.get("*", (req, res) => {
 });
 
 app.use(errorHandler);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);

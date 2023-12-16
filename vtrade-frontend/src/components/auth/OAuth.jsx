@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 export const OAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export const OAuth = () => {
       const data = await res.user;
 
       const result = await axios.post(
-        "http://localhost:3000/api/auth/google",
+        "/api/auth/google",
         {
           name: data.displayName,
           email: data.email,
@@ -32,11 +33,10 @@ export const OAuth = () => {
           withCredentials: true, //? [--- Took lot of time :') ---] To get cookie from server side, normal cookies are allowed but as we have firebase app we need to set this to true.
         }
       );
-      // console.log(result.data);
       dispatch(signInSuccess(result.data)); // Use data from server to update redux store
       navigate("/");
     } catch (err) {
-      console.log(err);
+      toast.error(err.response.data.message);
     }
   };
 

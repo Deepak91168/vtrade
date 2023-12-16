@@ -59,7 +59,7 @@ const EditVehicleDetails = () => {
     const fetchVehicle = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/vehicle/get-vehicle/${params.vehicleID}`,
+          `/api/vehicle/get-vehicle/${params.vehicleID}`,
           {
             withCredentials: true,
           }
@@ -244,7 +244,7 @@ const EditVehicleDetails = () => {
 
       setLoading(true);
       const res = await axios.put(
-        `http://localhost:3000/api/vehicle/update/${params.vehicleID}`,
+        `/api/vehicle/update/${params.vehicleID}`,
         {
           ...formData,
           userRef: currentUser.currentUser._id,

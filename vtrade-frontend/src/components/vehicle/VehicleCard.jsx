@@ -60,7 +60,7 @@ const VehicleCard = ({
 
   return (
     <motion.div
-      whileHover={{ scale: 1.03 }}
+      whileHover={{ scale: 1.01 }}
       key={index}
       className="m-2 sm:mt-2 max-w-md transition ease-in-out duration-300 "
     >
@@ -105,15 +105,6 @@ const VehicleCard = ({
             {vehicle.description.split(" ").slice(0, 30).join(" ")}...
           </div>
           <div className="flex justify-between items-center p-4 mb-0 bg-slate-800">
-            {contactBtn && (
-              <div className="flex justify-between items-center space-x-1">
-                <div className="flex">
-                  <IoCall className="text-[0.8rem]" />
-                  <span className="">{vehicle.ownerContact}</span>
-                </div>
-              </div>
-            )}
-
             <div className={!vehicle.offer && `hidden`}>
               <div className="flex items-center justify-center pt-2 pb-2 p-4 bg-slate-600 rounded-md">
                 <BiSolidOffer className="text-lg" />
@@ -126,30 +117,38 @@ const VehicleCard = ({
                 </span>
               </div>
             </div>
+            {contactBtn && (
+              <div className="flex justify-between items-center space-x-1">
+                <div className="flex items-center">
+                  <IoCall className="text-[0.8rem]" />
+                  <span className="pl-1">{vehicle.ownerContact}</span>
+                </div>
+              </div>
+            )}
             <div className="">{vehicle.ownerType}</div>
 
             <div>
               <button
                 onClick={() => navigate(`/vehicle/${vehicle._id}`)}
-                className="font-bold hover:text-slate-400 transition ease-in-out duration-300"
+                className="font-bold rounded-md hover:text-slate-200 transition ease-in-out duration-300"
               >
                 Details
               </button>
             </div>
             {edit && (
-              <div>
-                <div className="flex justify-end z-10 space-x-2 w-full bg-slate-800 p-1 sm:p-2">
+              <div className="">
+                <div className="flex justify-end z-10 space-x-2 w-full bg-slate-600 rounded-md p-1 sm:p-2 ">
                   <button
                     onClick={() => handleVehicleDelete(vehicle._id)}
                     className=""
                   >
-                    <FaTrash className="text-[0.8rem] transition ease-in-out duration-100 hover:text-red-500" />
+                    <FaTrash className="text-[0.9rem] transition ease-in-out duration-100 hover:text-red-500" />
                   </button>
                   <button
                     onClick={() => navigate(`/edit-vehicle/${vehicle._id}`)}
                     className=""
                   >
-                    <FaEdit className="text-[0.8rem] transition ease-in-out duration-100 hover:text-slate-400" />
+                    <FaEdit className="text-[0.9rem] transition ease-in-out duration-100 hover:text-slate-400" />
                   </button>
                 </div>
               </div>
