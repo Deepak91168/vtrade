@@ -42,6 +42,7 @@ const Buy = () => {
       if (res.data.length < limit) {
         setShowMore(false);
       }
+      console.log(res.data);
     } catch (error) {
       toast.error(error.response.data.message);
     }

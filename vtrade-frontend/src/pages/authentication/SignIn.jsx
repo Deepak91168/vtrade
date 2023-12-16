@@ -17,6 +17,7 @@ import {
 export const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.user);
 
   //State Handling form Login Data
   const [userData, setUserData] = useState({
@@ -25,13 +26,16 @@ export const SignIn = () => {
   });
 
   //Handling for error and loading
-  const { loading, error } = useSelector((state) => state.user);
 
+  //*Handling form Input
+  const onChangeHandler = (e) => {
+    setUserData({ ...userData, [e.target.id]: e.target.value });
+  };
   //*Handling form Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Daya kya huaa");
     try {
+      console.log(userData);
       dispatch(signInStart());
       const response = await axios.post(
         "http://localhost:3000/api/auth/login",
@@ -44,17 +48,13 @@ export const SignIn = () => {
         }
       );
       const data = await response.data;
+      console.log(data);
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
       dispatch(signInFailure(error.response.data.message));
     }
-  };
-
-  //*Handling form Input
-  const onChangeHandler = (e) => {
-    setUserData({ ...userData, [e.target.id]: e.target.value });
   };
 
   return (
