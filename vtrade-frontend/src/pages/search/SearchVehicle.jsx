@@ -92,10 +92,9 @@ const SearchVehicle = () => {
         setLoading(true);
         const searchQuery = urlParams.toString();
         console.log(searchQuery);
-        const res = await axios.get(
-          `http://localhost:3000/api/vehicle/get-vehicle?${searchQuery}`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`/api/vehicle/get-vehicle?${searchQuery}`, {
+          withCredentials: true,
+        });
         setVehicleData(res.data);
         if (res.data.length > 9) {
           setShowMore(true);
