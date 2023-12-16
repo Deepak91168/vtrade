@@ -28,11 +28,11 @@ const Footer = () => {
       >
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center justify-between">
-            <p className="font-bold text-slate-200 text-sm sm:text-md">VTRADE</p>
-            <div className="text-[10px] sm:text-[0.7rem] text-slate-200">
+            <p className="font-bold text-slate-200 text-[0.8rem] sm:text-md">VTRADE</p>
+            <div className="text-[8px] sm:text-[0.7rem] text-slate-200">
               All rights reserved &copy; {new Date().getFullYear()} VTRADE
             </div>
-            <div className="flex space-x-2 sm:space-x-4">
+            <div className="flex space-x-1 text-sm sm:space-x-4">
               <a
                 href="https://www.facebook.com/"
                 className="text-white hover:text-gray-300"

@@ -25,7 +25,7 @@ const ContactOwner = ({ vehicle }) => {
     getOwner();
   }, [vehicle.userRef]);
   return (
-    <>
+    <div className="mb-[64px]">
       {owner && (
         <>
           <div className="p-4 flex justify-center space-x-2 mx-2 text-sm bg-slate-700 bg-opacity-40 rounded-lg">
@@ -69,7 +69,7 @@ const ContactOwner = ({ vehicle }) => {
           </form>
         </>
       )}
-    </>
+    </div>
   );
 };
 

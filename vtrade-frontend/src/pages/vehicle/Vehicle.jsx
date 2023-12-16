@@ -69,7 +69,7 @@ const Vehicle = () => {
     fetchVehicle();
   }, [params.vehicleID]);
   return (
-    <div className="mb-[64px]">
+    <div className="">
       {vehicle && !loading ? (
         <div className="mt-32">
           <div className="flex flex-col sm:flex-row justify-center items-start w-full">
@@ -164,8 +164,8 @@ const Vehicle = () => {
             </div>
           </div>
           <div className="text-white mt-4 flex justify-start mx-auto md:max-w-3xl  pb-[64px] ">
-            <div className="w-full">
-              <p className="pl-4 font-bold text-slate-400">Description</p>
+            <div className="w-full mt-8 sm:mt-0 px-2">
+              <p className="pl-4 font-bold text-slate-400 ">Description</p>
               <p className="text-[0.7rem] sm:text-sm p-4 text-slate-200">
                 {vehicle.description}
               </p>
@@ -178,14 +178,14 @@ const Vehicle = () => {
                   Log In to contact Owner
                 </p>
               ) : (
-                <div className="flex justify-center  mb-4">
+                <div className="flex justify-center mb-4">
                   <button
                     onClick={() => setContactOwner((prev) => !prev)}
                     className={` text-center transition ease-in-out ${
                       !contactOwner
                         ? "bg-slate-800 text-white"
                         : "bg-transparent border-none text-red-500"
-                    } duration-500 rounded-lg border-slate-800 p-4 border-[1px] text-[0.7rem] hover:border-slate-600 hover:bg-transparent `}
+                    } duration-500 rounded-lg border-slate-800 p-4 border-[1px] text-[0.6rem] sm:text-[0.7rem] hover:border-slate-600 hover:bg-transparent `}
                   >
                     {!contactOwner ? "Contact Owner" : "Close"}
                   </button>
@@ -194,7 +194,7 @@ const Vehicle = () => {
               {contactOwner &&
                 currentUser &&
                 currentUser._id === vehicle.userRef && (
-                  <p className="text-[0.7rem] cursor-pointer mx-auto w-full text-slate-400 text-center">
+                  <p className="text-[0.7rem] cursor-pointer mx-auto w-full text-slate-300  text-center">
                     You are the owner of this vehicle
                   </p>
                 )}
@@ -214,3 +214,4 @@ const Vehicle = () => {
 };
 
 export default Vehicle;
+//TODO: Handle UI when no listed vehicle present show a message
