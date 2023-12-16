@@ -95,22 +95,25 @@ export const SignIn = () => {
             {/* --- Already have an account and error Ends --- */}
 
             {/* Conditional Rendering for Loader */}
-            {!loading ? (
-              <div className="p-2">
-                <button
-                  type="submit"
-                  onClick={handleSubmit}
-                  className={`transition ease-in-out duration-300 mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600`}
-                >
-                  Log In
-                </button>
-                <p className="cursor-default text-center text-[10px] text-slate-400 mt-2">
-                  or
-                </p>
-                <OAuth />
+
+            <div className="p-2">
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className={`transition ease-in-out duration-300 mt-4 font-thin  rounded-sm border-slate-800 text-white w-full pt-4 pb-4 border-[2px] text-[0.7rem] hover:border-slate-600`}
+              >
+                Log In
+              </button>
+              <p className="cursor-default text-center text-[10px] text-slate-400 mt-2">
+                or
+              </p>
+              <OAuth />
+            </div>
+
+            {loading && (
+              <div className=" flex justify-center items-center pl-6">
+                <Loader />
               </div>
-            ) : (
-              <Loader />
             )}
           </div>
         </form>
