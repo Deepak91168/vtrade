@@ -41,7 +41,6 @@ export const SignUp = () => {
           },
         }
       );
-      console.log(response.data);
       setLoading(false);
       setError(null);
       navigate("/sign-in");

@@ -31,6 +31,7 @@ export const SignIn = () => {
   const onChangeHandler = (e) => {
     setUserData({ ...userData, [e.target.id]: e.target.value });
   };
+
   //*Handling form Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +48,6 @@ export const SignIn = () => {
         }
       );
       const data = await response.data;
-      console.log(data);
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
