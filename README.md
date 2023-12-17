@@ -65,7 +65,7 @@ The Used Vehicle Marketplace is an online platform designed to facilitate the bu
 
 
 ## Screenshot
-![Home](./vtrade-frontend/src/assets/images/image-1.png)
+![Home](/vtrade-frontend//src/assets/images/image-1.png)
 
 
 ## Contributing
