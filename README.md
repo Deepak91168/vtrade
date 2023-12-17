@@ -65,8 +65,7 @@ The Used Vehicle Marketplace is an online platform designed to facilitate the bu
 
 
 ## Screenshot
-![Home](/vtrade-frontend//src/assets/images/image-1.png)
-
+![Home](/vtrade-frontend/src/assets/images/image-1.png)
 
 ## Contributing
 
@@ -97,7 +96,7 @@ The Used Vehicle Marketplace is an online platform designed to facilitate the bu
 
 Feel free to create new issues if you identify any bugs, improvements, or new feature requests. Follow these steps:
 
-1. Go to the [Issues tab](https://github.com/Deepak91168/vtrade/issues) of the repository.
+1. Go to the [`issues`](https://github.com/Deepak91168/vtrade/issues) of the repository.
 2. Click on the "New Issue" button.
 
 Thank's in advance for contribution🌟
