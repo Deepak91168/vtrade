@@ -1,6 +1,6 @@
 ## VTRADE
 
-🌍 Deployed Link: https://vtrade-k8vg.onrender.com
+🌍 Deployed Link: [`https://vtrade-k8vg.onrender.com`](https://vtrade-k8vg.onrender.com)
 
 The Used Vehicle Marketplace is an online platform designed to facilitate the buying and selling of pre-owned vehicles. This platform offers users the opportunity to directly connect with vehicle owners, streamlining the process of purchasing or selling a used vehicle.
 
@@ -28,7 +28,7 @@ The Used Vehicle Marketplace is an online platform designed to facilitate the bu
     git clone https://github.com/Deepak91168/vtrade.git
 ```
 
-- Navigate to `vtrade` directory 
+- Navigate to `vtrade` directory using
 ```bash
     cd vtrade
 ```
@@ -36,7 +36,7 @@ The Used Vehicle Marketplace is an online platform designed to facilitate the bu
 ```bash
     npm install
 ```
-- Navigate to `vtrade-frontend`
+- Navigate to `vtrade-frontend` using
 ```bash
     cd vtrade-frontend
 ```
@@ -45,20 +45,24 @@ The Used Vehicle Marketplace is an online platform designed to facilitate the bu
     npm install
 ```
 
-- Starting backend Development server navigate to root directory the run 
+### To start development server  
+
+  1. First navigate to `vtrade` and
+2. To start backend development server 
 
 ```bash
     npm run dev
 ```
+##### serve will start on [`http://localhost:3000/`](http://localhost:3000/)
 
-- Starting frontend Development server
+  3. To start frontend development server
 
 ```bash
-    cd vtrade-frontend
+    cd vtrade-frontend && npm run dev
 ```
-```bash
-    npm run dev
-```
+
+##### server will start on [`http://localhost:5173/`](http://localhost:5173/)
+
 
 ## Screenshot
 ![Home](./vtrade-frontend/src/assets/images/image-1.png)
