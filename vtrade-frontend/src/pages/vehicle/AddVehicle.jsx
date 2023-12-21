@@ -177,7 +177,6 @@ const AddVehicle = () => {
       [id]: value,
     });
   };
-  console.log(formData);
   const handleOwnerTypeChange = (i) => {
     setSelectedOwnerType((prev) => {
       if (prev === i) {
